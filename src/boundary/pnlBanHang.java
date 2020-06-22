@@ -220,23 +220,8 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 				if (modelSanPham.getRowCount() == 0) {
 					hoaDon = new HoaDon(UUID.randomUUID().toString(), 0.03, new Date());
 
-					Thuoc thuocTemp = new Thuoc();
-					thuocTemp.setMaThuoc(cbxMaSanPham.getSelectedItem().toString());
-					thuocTemp.setTenThuoc(txtTenSanPham.getText());
-					thuocTemp.setDonViTinh(txtDonViTinh.getText());
-					thuocTemp.setGia(Double.parseDouble(txtDonGia.getText()));
-
-					ChiTietHoaDon a = new ChiTietHoaDon(thuocTemp, Double.parseDouble(txtDonGia.getText()),
-							Integer.parseInt(txtSoLuong.getText()));
-
-					((DefaultTableModel) modelSanPham).addRow(new Object[] { modelSanPham.getRowCount(),
-							a.getThuoc().getMaThuoc(), a.getThuoc().getTenThuoc(), a.getThuoc().getDonViTinh(),
-							a.getSoLuong(), a.getGiaBan(), a.tinhTongTienChiTietHoaDon() });
-
-					hoaDon.getListChiTietHoaDon().add(a);
-					System.out.println(hoaDon);
-				} else {
-					if(kiemTraChiTietHoaDonTonTai(cbxMaSanPham.getSelectedItem().toString(), hoaDon.getListChiTietHoaDon())) {
+					if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()),
+							cbxMaSanPham.getSelectedItem().toString())) {
 						Thuoc thuocTemp = new Thuoc();
 						thuocTemp.setMaThuoc(cbxMaSanPham.getSelectedItem().toString());
 						thuocTemp.setTenThuoc(txtTenSanPham.getText());
@@ -249,30 +234,78 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 						((DefaultTableModel) modelSanPham).addRow(new Object[] { modelSanPham.getRowCount(),
 								a.getThuoc().getMaThuoc(), a.getThuoc().getTenThuoc(), a.getThuoc().getDonViTinh(),
 								a.getSoLuong(), a.getGiaBan(), a.tinhTongTienChiTietHoaDon() });
+
 						hoaDon.getListChiTietHoaDon().add(a);
 						System.out.println(hoaDon);
+						txtSoLuong.setText("1");
+						lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
+						lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
+						txtTenSanPham.setText("");
+						txtDonGia.setText("");
+						txtDonViTinh.setText("");
+						cbxMaSanPham.getEditor().setItem("");
+					} else {
+
+						JOptionPane.showMessageDialog(null,
+								"Số lượng trong kho không đủ chỉ còn "
+										+ ctrlThuoc.getSoLuongConLaiTrongKho(cbxMaSanPham.getSelectedItem().toString())
+										+ " sản phẩm!");
+
+					}
+
+				} else {
+					if (kiemTraChiTietHoaDonTonTai(cbxMaSanPham.getSelectedItem().toString(),
+							hoaDon.getListChiTietHoaDon())) {
+						if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()),
+								cbxMaSanPham.getSelectedItem().toString())) {
+							Thuoc thuocTemp = new Thuoc();
+							thuocTemp.setMaThuoc(cbxMaSanPham.getSelectedItem().toString());
+							thuocTemp.setTenThuoc(txtTenSanPham.getText());
+							thuocTemp.setDonViTinh(txtDonViTinh.getText());
+							thuocTemp.setGia(Double.parseDouble(txtDonGia.getText()));
+
+							ChiTietHoaDon a = new ChiTietHoaDon(thuocTemp, Double.parseDouble(txtDonGia.getText()),
+									Integer.parseInt(txtSoLuong.getText()));
+
+							((DefaultTableModel) modelSanPham).addRow(new Object[] { modelSanPham.getRowCount(),
+									a.getThuoc().getMaThuoc(), a.getThuoc().getTenThuoc(), a.getThuoc().getDonViTinh(),
+									a.getSoLuong(), a.getGiaBan(), a.tinhTongTienChiTietHoaDon() });
+
+							hoaDon.getListChiTietHoaDon().add(a);
+							System.out.println(hoaDon);
+							txtSoLuong.setText("1");
+							lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
+							lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
+							txtTenSanPham.setText("");
+							txtDonGia.setText("");
+							txtDonViTinh.setText("");
+							cbxMaSanPham.getEditor().setItem("");
+						} else {
+
+							JOptionPane.showMessageDialog(null, "Số lượng trong kho không đủ chỉ còn "
+									+ ctrlThuoc.getSoLuongConLaiTrongKho(cbxMaSanPham.getSelectedItem().toString())
+									+ " sản phẩm!");
+
+						}
 					} else {
 						int count = 0;
 						for (ChiTietHoaDon chiTietHoaDon : hoaDon.getListChiTietHoaDon()) {
-							if(chiTietHoaDon.getThuoc().getMaThuoc().equals(cbxMaSanPham.getSelectedItem().toString())) {
+							if (chiTietHoaDon.getThuoc().getMaThuoc()
+									.equals(cbxMaSanPham.getSelectedItem().toString())) {
 								break;
 							}
 							count++;
 						}
-						int soLuongMoi = Integer.parseInt(modelSanPham.getValueAt(count, 4).toString()) + Integer.parseInt(txtSoLuong.getText());
+						int soLuongMoi = Integer.parseInt(modelSanPham.getValueAt(count, 4).toString())
+								+ Integer.parseInt(txtSoLuong.getText());
 						System.out.println(soLuongMoi);
 						modelSanPham.setValueAt(soLuongMoi, count, 4);
 						hoaDon.getListChiTietHoaDon().get(count).setSoLuong(soLuongMoi);
-						modelSanPham.setValueAt(hoaDon.getListChiTietHoaDon().get(count).tinhTongTienChiTietHoaDon(), count, 6);
+						modelSanPham.setValueAt(hoaDon.getListChiTietHoaDon().get(count).tinhTongTienChiTietHoaDon(),
+								count, 6);
 					}
 				}
-				txtSoLuong.setText("1");
-				lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
-				lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
-				txtTenSanPham.setText("");
-				txtDonGia.setText("");
-				txtDonViTinh.setText("");
-				cbxMaSanPham.getEditor().setItem("");
+
 			}
 		});
 		btnThem.setBackground(Color.PINK);
@@ -284,7 +317,7 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 		txtTenSanPham.setBounds(178, 23, 158, 20);
 		pnlCenterTop.add(txtTenSanPham);
 		txtTenSanPham.setColumns(10);
-		
+
 		btnXoa = new JButton("Xóa");
 		btnXoa.setBackground(Color.PINK);
 		btnXoa.setBounds(733, 4, 89, 40);
@@ -376,10 +409,10 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 		}
 
 	}
-	
+
 	public boolean kiemTraChiTietHoaDonTonTai(String maThuoc, ArrayList<ChiTietHoaDon> arr) {
 		for (ChiTietHoaDon chiTietHoaDon : arr) {
-			if(chiTietHoaDon.getThuoc().getMaThuoc().equals(maThuoc)) {
+			if (chiTietHoaDon.getThuoc().getMaThuoc().equals(maThuoc)) {
 				return false;
 			}
 		}
@@ -398,11 +431,11 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 			txtDonGia.setText(Double.toString(donGiaBan));
 		}
 
-		if(obj.equals(btnXoa)) {
+		if (obj.equals(btnXoa)) {
 			int index = tblBanHang.getSelectedRow();
 			if (index < 0) {
 				JOptionPane.showMessageDialog(this, "Vui lòng chọn dòng cần xóa!");
-			}else {
+			} else {
 				int i = JOptionPane.showConfirmDialog(this, "Bạn có chắc muốn xóa!");
 				if (i == 0) {
 					((DefaultTableModel) modelSanPham).removeRow(index);

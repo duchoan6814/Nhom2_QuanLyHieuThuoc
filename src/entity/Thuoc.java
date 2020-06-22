@@ -9,7 +9,16 @@ public class Thuoc {
 	private Date ngaySanXuat, ngayHetHan;
 	private NhaCungCap nhaCungCap;
 	private ArrayList<TheLoai> listTheLoai;
+	private int soLuong;
 	
+	
+	
+	public int getSoLuong() {
+		return soLuong;
+	}
+	public void setSoLuong(int soLuong) {
+		this.soLuong = soLuong;
+	}
 	public String getMaThuoc() {
 		return maThuoc;
 	}
@@ -64,19 +73,6 @@ public class Thuoc {
 	public void setListTheLoai(ArrayList<TheLoai> listTheLoai) {
 		this.listTheLoai = listTheLoai;
 	}
-	public Thuoc(String maThuoc, String tenThuoc, String moTa, String donViTinh, double gia, Date ngaySanXuat,
-			Date ngayHetHan, NhaCungCap nhaCungCap) {
-		super();
-		this.maThuoc = maThuoc;
-		this.tenThuoc = tenThuoc;
-		this.moTa = moTa;
-		this.donViTinh = donViTinh;
-		this.gia = gia;
-		this.ngaySanXuat = ngaySanXuat;
-		this.ngayHetHan = ngayHetHan;
-		this.nhaCungCap = nhaCungCap;
-		this.listTheLoai = new ArrayList<TheLoai>();
-	}
 	
 	public Thuoc() {
 		// TODO Auto-generated constructor stub
@@ -86,7 +82,7 @@ public class Thuoc {
 	public String toString() {
 		return "Thuoc [maThuoc=" + maThuoc + ", tenThuoc=" + tenThuoc + ", moTa=" + moTa + ", donViTinh=" + donViTinh
 				+ ", gia=" + gia + ", ngaySanXuat=" + ngaySanXuat + ", ngayHetHan=" + ngayHetHan + ", nhaCungCap="
-				+ nhaCungCap + ", listTheLoai=" + listTheLoai + "]";
+				+ nhaCungCap + ", listTheLoai=" + listTheLoai + ", soLuong=" + soLuong + "]";
 	}
 	
 	@Override
@@ -97,6 +93,20 @@ public class Thuoc {
 		return result;
 	}
 	
+	public Thuoc(String maThuoc, String tenThuoc, String moTa, String donViTinh, double gia, Date ngaySanXuat,
+			Date ngayHetHan, NhaCungCap nhaCungCap, ArrayList<TheLoai> listTheLoai, int soLuong) {
+		super();
+		this.maThuoc = maThuoc;
+		this.tenThuoc = tenThuoc;
+		this.moTa = moTa;
+		this.donViTinh = donViTinh;
+		this.gia = gia;
+		this.ngaySanXuat = ngaySanXuat;
+		this.ngayHetHan = ngayHetHan;
+		this.nhaCungCap = nhaCungCap;
+		this.listTheLoai = listTheLoai;
+		this.soLuong = soLuong;
+	}
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
