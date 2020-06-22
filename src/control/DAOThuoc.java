@@ -73,6 +73,6 @@ public class DAOThuoc extends DAO {
 	public static void main(String[] args) {
 		new DAOThuoc().getIdThuoc("VD");
 		new DAOThuoc().getThuocBan("GC-274-17");
-		System.out.println(new DAOThuoc().kiemTraMaThuoc("GC-74-17"));
+		System.out.println(new DAOThuoc().kiemTraMaThuoc("NC46-H06-15"));
 	}
 }
