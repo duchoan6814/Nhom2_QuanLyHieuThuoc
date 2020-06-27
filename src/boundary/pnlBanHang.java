@@ -15,6 +15,7 @@ import javax.swing.table.TableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import control.DAOKhachHang;
 import control.DAOThuoc;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
@@ -42,8 +43,7 @@ import javax.swing.border.EtchedBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-public class pnlBanHang extends JPanel implements DocumentListener, ActionListener {
-	private JTextField txtMaKhachHang;
+public class pnlBanHang extends JPanel implements ActionListener {
 	private JTextField txtSoLuong;
 	private JTextField txtDonViTinh;
 	private JTextField txtDonGia;
@@ -61,6 +61,9 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 	private JButton btnXoa;
 	private JLabel lblTongTien;
 	private JLabel lblThanhTien;
+	private JTextComponent td;
+	private DAOKhachHang daoKhachHang = new DAOKhachHang();
+	private Vector maKhachHangComboboxModel;
 
 	/**
 	 * Create the panel.
@@ -77,11 +80,6 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 		pnlNhapLieu.setBounds(10, 417, 409, 177);
 		add(pnlNhapLieu);
 		pnlNhapLieu.setLayout(null);
-
-		txtMaKhachHang = new JTextField();
-		txtMaKhachHang.setBounds(10, 53, 274, 27);
-		pnlNhapLieu.add(txtMaKhachHang);
-		txtMaKhachHang.setColumns(10);
 
 		JButton btnMaKhachHang = new JButton("Tìm");
 		btnMaKhachHang.setBackground(Color.PINK);
@@ -101,6 +99,41 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 		JLabel lblMaKhachHang = new JLabel("Mã khách hàng");
 		lblMaKhachHang.setBounds(10, 38, 129, 14);
 		pnlNhapLieu.add(lblMaKhachHang);
+		
+		maKhachHangComboboxModel = new Vector();
+		JComboBox cbxMaKhachHang = new JComboBox(maKhachHangComboboxModel);
+		td = (JTextComponent) cbxMaKhachHang.getEditor().getEditorComponent();
+		td.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("hello");
+				maKhachHangComboboxModel.clear();
+				for (String i : daoKhachHang.findListMaKhachHang(td.getText())) {
+					maKhachHangComboboxModel.add(i);
+				} 
+			}
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+//				cbxMaKhachHang.removeAllItems();
+				maKhachHangComboboxModel.clear();
+				for (String i : daoKhachHang.findListMaKhachHang(td.getText())) {
+					maKhachHangComboboxModel.add(i);
+				} 
+			}
+			
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				System.out.println("hello2");
+			}
+		});
+		cbxMaKhachHang.setEditable(true);
+		cbxMaKhachHang.setBounds(10, 55, 274, 22);
+		pnlNhapLieu.add(cbxMaKhachHang);
 
 		JPanel pnlThanhTien = new JPanel();
 		pnlThanhTien.setBackground(Color.WHITE);
@@ -165,7 +198,39 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 		cbxMaSanPham.setBackground(Color.WHITE);
 		cbxMaSanPham.setBounds(10, 22, 158, 22);
 		tc = (JTextComponent) cbxMaSanPham.getEditor().getEditorComponent();
-		tc.getDocument().addDocumentListener(this);
+		tc.getDocument().addDocumentListener(new DocumentListener() {
+			
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				// TODO Auto-generated method
+				maThuocModel.clear();
+				Vector a = ctrlThuoc.getIdThuoc(tc.getText());
+				for (int i = 0; i < a.size(); i++) {
+					maThuocModel.add(a.get(i).toString());
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				maThuocModel.clear();
+				Vector a = ctrlThuoc.getIdThuoc(tc.getText());
+				for (int i = 0; i < a.size(); i++) {
+					maThuocModel.add(a.get(i).toString());
+				}
+
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				// TODO Auto-generated method stub
+				maThuocModel.clear();
+				Vector a = ctrlThuoc.getIdThuoc(tc.getText());
+				for (int i = 0; i < a.size(); i++) {
+					maThuocModel.add(a.get(i).toString());
+				}
+			}
+		});
 		cbxMaSanPham.addActionListener(this);
 		pnlCenterTop.add(cbxMaSanPham);
 
@@ -299,10 +364,24 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 						int soLuongMoi = Integer.parseInt(modelSanPham.getValueAt(count, 4).toString())
 								+ Integer.parseInt(txtSoLuong.getText());
 						System.out.println(soLuongMoi);
-						modelSanPham.setValueAt(soLuongMoi, count, 4);
-						hoaDon.getListChiTietHoaDon().get(count).setSoLuong(soLuongMoi);
-						modelSanPham.setValueAt(hoaDon.getListChiTietHoaDon().get(count).tinhTongTienChiTietHoaDon(),
-								count, 6);
+						if (ctrlThuoc.kiemTraSoLuong(soLuongMoi, cbxMaSanPham.getSelectedItem().toString())) {
+							modelSanPham.setValueAt(soLuongMoi, count, 4);
+							hoaDon.getListChiTietHoaDon().get(count).setSoLuong(soLuongMoi);
+							modelSanPham.setValueAt(
+									hoaDon.getListChiTietHoaDon().get(count).tinhTongTienChiTietHoaDon(), count, 6);
+							txtSoLuong.setText("1");
+							lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
+							lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
+							txtTenSanPham.setText("");
+							txtDonGia.setText("");
+							txtDonViTinh.setText("");
+							cbxMaSanPham.getEditor().setItem("");
+						} else {
+							JOptionPane.showMessageDialog(null, "Số lượng trong kho không đủ chỉ còn "
+									+ ctrlThuoc.getSoLuongConLaiTrongKho(cbxMaSanPham.getSelectedItem().toString())
+									+ " sản phẩm!");
+						}
+
 					}
 				}
 
@@ -346,37 +425,6 @@ public class pnlBanHang extends JPanel implements DocumentListener, ActionListen
 		lblTitle.setBounds(374, 0, 108, 43);
 		add(lblTitle);
 
-	}
-
-	@Override
-	public void insertUpdate(DocumentEvent e) {
-		// TODO Auto-generated method
-		maThuocModel.clear();
-		Vector a = ctrlThuoc.getIdThuoc(tc.getText());
-		for (int i = 0; i < a.size(); i++) {
-			maThuocModel.add(a.get(i).toString());
-		}
-	}
-
-	@Override
-	public void removeUpdate(DocumentEvent e) {
-		// TODO Auto-generated method stub
-		maThuocModel.clear();
-		Vector a = ctrlThuoc.getIdThuoc(tc.getText());
-		for (int i = 0; i < a.size(); i++) {
-			maThuocModel.add(a.get(i).toString());
-		}
-
-	}
-
-	@Override
-	public void changedUpdate(DocumentEvent e) {
-		// TODO Auto-generated method stub
-		maThuocModel.clear();
-		Vector a = ctrlThuoc.getIdThuoc(tc.getText());
-		for (int i = 0; i < a.size(); i++) {
-			maThuocModel.add(a.get(i).toString());
-		}
 	}
 
 	public boolean validateMaThuoc() {

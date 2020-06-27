@@ -38,7 +38,7 @@ public class DAOThuoc extends DAO {
 			ps.setString(1, maThuoc);
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				return mySoLuong < rs.getInt("SoLuong");
+				return mySoLuong <= rs.getInt("SoLuong");
 			}
 			return false;
 		} catch (SQLException e) {
