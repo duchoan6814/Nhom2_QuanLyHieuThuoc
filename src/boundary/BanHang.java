@@ -304,7 +304,7 @@ public class BanHang extends JFrame {
 		pnlContent.add(pnlCenter, BorderLayout.CENTER);
 		pnlCenter.setLayout(new CardLayout(0, 0));
 		
-		pnlBanHang_1 = new pnlBanHang();
+		pnlBanHang_1 = new pnlBanHang(userName);
 		pnlCenter.add(pnlBanHang_1, "pnlBanHang");
 		pnlBanHang_1.setLayout(null);
 		

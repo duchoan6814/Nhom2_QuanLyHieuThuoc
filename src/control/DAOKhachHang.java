@@ -26,6 +26,30 @@ public class DAOKhachHang extends DAO {
 		
 	}
 	
+	public KhachHang timKhachHangTheoMa(String maKhachHang) {
+		KhachHang a = new KhachHang();
+		String sql = "select * from [dbo].[KhachHang] where MaKH = ?";
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(sql);
+			ps.setString(1, maKhachHang);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				a.setMaKH(rs.getString("MaKH"));
+				a.setHoTenDem(rs.getString("HoTenDem"));
+				a.setDiemTichLuy(rs.getDouble("DiemTichLuy"));
+				a.setTen(rs.getString("TenKH"));
+				return a;
+			}
+			return null;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(new DAOKhachHang().findListMaKhachHang("18054321"));
 		

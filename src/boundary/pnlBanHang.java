@@ -16,9 +16,12 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
 import control.DAOKhachHang;
+import control.DAONhanVien;
 import control.DAOThuoc;
 import entity.ChiTietHoaDon;
 import entity.HoaDon;
+import entity.KhachHang;
+import entity.NhanVien;
 import entity.Thuoc;
 
 import java.awt.Font;
@@ -63,12 +66,17 @@ public class pnlBanHang extends JPanel implements ActionListener {
 	private JLabel lblThanhTien;
 	private JTextComponent td;
 	private DAOKhachHang daoKhachHang = new DAOKhachHang();
+	private DAONhanVien daoNhanVien = new DAONhanVien();
 	private Vector maKhachHangComboboxModel;
+	private NhanVien nhanVienBanHang;
+	private JLabel lblTenKhachHang;
+	private JLabel lblDiemTichLuy;
 
 	/**
 	 * Create the panel.
 	 */
-	public pnlBanHang() {
+	public pnlBanHang(String userName) {
+		nhanVienBanHang = new NhanVien(daoNhanVien.getInforNhanVien(userName).getMaNhanVien());
 		setBackground(new Color(248, 243, 235));
 		setLayout(null);
 
@@ -82,16 +90,32 @@ public class pnlBanHang extends JPanel implements ActionListener {
 		pnlNhapLieu.setLayout(null);
 
 		JButton btnMaKhachHang = new JButton("Tìm");
+		btnMaKhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (daoKhachHang.timKhachHangTheoMa(td.getText()) != null) {
+					KhachHang tempKH = daoKhachHang.timKhachHangTheoMa(td.getText());
+					if (hoaDon != null) {
+						lblTenKhachHang.setText("Khách hàng: " + tempKH.getHoTenDem() + " " + tempKH.getTen());
+						lblDiemTichLuy.setText("Điểm tích lũy: " + tempKH.getDiemTichLuy());
+						hoaDon.setKhachHang(tempKH);
+					} else {
+						JOptionPane.showMessageDialog(null, "Tạo hóa đơn trước rồi mới thêm khách hàng!");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Khách hàng không tồn tại!");
+				}
+			}
+		});
 		btnMaKhachHang.setBackground(Color.PINK);
 		btnMaKhachHang.setBounds(294, 53, 105, 27);
 		pnlNhapLieu.add(btnMaKhachHang);
 
-		JLabel lblTenKhachHang = new JLabel("Khách Hàng: Trương Đức Hoàn");
+		lblTenKhachHang = new JLabel("Khách Hàng: Null");
 		lblTenKhachHang.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblTenKhachHang.setBounds(10, 103, 389, 14);
 		pnlNhapLieu.add(lblTenKhachHang);
 
-		JLabel lblDiemTichLuy = new JLabel("Điểm tích lũy: 10000");
+		lblDiemTichLuy = new JLabel("Điểm tích lũy: Null");
 		lblDiemTichLuy.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		lblDiemTichLuy.setBounds(10, 128, 389, 14);
 		pnlNhapLieu.add(lblDiemTichLuy);
@@ -99,12 +123,28 @@ public class pnlBanHang extends JPanel implements ActionListener {
 		JLabel lblMaKhachHang = new JLabel("Mã khách hàng");
 		lblMaKhachHang.setBounds(10, 38, 129, 14);
 		pnlNhapLieu.add(lblMaKhachHang);
-		
+
 		maKhachHangComboboxModel = new Vector();
 		JComboBox cbxMaKhachHang = new JComboBox(maKhachHangComboboxModel);
+		cbxMaKhachHang.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (daoKhachHang.timKhachHangTheoMa(cbxMaKhachHang.getSelectedItem().toString()) != null) {
+					KhachHang tempKH = daoKhachHang.timKhachHangTheoMa(cbxMaKhachHang.getSelectedItem().toString());
+					if (hoaDon != null) {
+						lblTenKhachHang.setText("Khách hàng: " + tempKH.getHoTenDem() + " " + tempKH.getTen());
+						lblDiemTichLuy.setText("Điểm tích lũy: " + tempKH.getDiemTichLuy());
+					} else {
+						JOptionPane.showMessageDialog(null, "Tạo hóa đơn trước rồi mới thêm khách hàng!");
+					}
+				} else {
+					JOptionPane.showMessageDialog(null, "Khách hàng không tồn tại!");
+				}
+
+			}
+		});
 		td = (JTextComponent) cbxMaKhachHang.getEditor().getEditorComponent();
 		td.getDocument().addDocumentListener(new DocumentListener() {
-			
+
 			@Override
 			public void removeUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
@@ -112,9 +152,9 @@ public class pnlBanHang extends JPanel implements ActionListener {
 				maKhachHangComboboxModel.clear();
 				for (String i : daoKhachHang.findListMaKhachHang(td.getText())) {
 					maKhachHangComboboxModel.add(i);
-				} 
+				}
 			}
-			
+
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
@@ -122,9 +162,9 @@ public class pnlBanHang extends JPanel implements ActionListener {
 				maKhachHangComboboxModel.clear();
 				for (String i : daoKhachHang.findListMaKhachHang(td.getText())) {
 					maKhachHangComboboxModel.add(i);
-				} 
+				}
 			}
-			
+
 			@Override
 			public void changedUpdate(DocumentEvent e) {
 				// TODO Auto-generated method stub
@@ -199,7 +239,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 		cbxMaSanPham.setBounds(10, 22, 158, 22);
 		tc = (JTextComponent) cbxMaSanPham.getEditor().getEditorComponent();
 		tc.getDocument().addDocumentListener(new DocumentListener() {
-			
+
 			@Override
 			public void insertUpdate(DocumentEvent e) {
 				// TODO Auto-generated method
@@ -284,6 +324,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 				}
 				if (modelSanPham.getRowCount() == 0) {
 					hoaDon = new HoaDon(UUID.randomUUID().toString(), 0.03, new Date());
+					hoaDon.setNhanVien(nhanVienBanHang);
 
 					if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()),
 							cbxMaSanPham.getSelectedItem().toString())) {
