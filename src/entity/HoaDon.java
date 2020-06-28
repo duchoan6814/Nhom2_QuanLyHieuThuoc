@@ -10,8 +10,17 @@ public class HoaDon {
 	private NhanVien nhanVien;
 	private KhachHang khachHang;
 	private ArrayList<ChiTietHoaDon> listChiTietHoaDon;
+	private Double diemSuDung = (double) 0;
 	
 	
+	
+	public Double getDiemSuDung() {
+		return diemSuDung;
+	}
+
+	public void setDiemSuDung(Double diemSuDung) {
+		this.diemSuDung = diemSuDung;
+	}
 
 	public NhanVien getNhanVien() {
 		return nhanVien;
@@ -154,6 +163,6 @@ public class HoaDon {
 		for (ChiTietHoaDon chiTietHoaDon : listChiTietHoaDon) {
 			tongTien += chiTietHoaDon.tinhTongTienChiTietHoaDon();
 		}
-		return tongTien + (tongTien * this.getvAT());
+		return tongTien + (tongTien * this.getvAT()) - diemSuDung;
 	}
 }

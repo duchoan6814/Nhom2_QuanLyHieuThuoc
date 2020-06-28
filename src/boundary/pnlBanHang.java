@@ -29,6 +29,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 import java.util.Vector;
 import java.util.concurrent.atomic.AtomicLong;
@@ -45,6 +46,7 @@ import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.NumberFormat;
 
 public class pnlBanHang extends JPanel implements ActionListener {
 	private JTextField txtSoLuong;
@@ -96,7 +98,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 					KhachHang tempKH = daoKhachHang.timKhachHangTheoMa(td.getText());
 					if (hoaDon != null) {
 						lblTenKhachHang.setText("Khách hàng: " + tempKH.getHoTenDem() + " " + tempKH.getTen());
-						lblDiemTichLuy.setText("Điểm tích lũy: " + tempKH.getDiemTichLuy());
+						lblDiemTichLuy.setText("Điểm tích lũy: " + chuyenDoiDinhDangTienTe(tempKH.getDiemTichLuy()));
 						hoaDon.setKhachHang(tempKH);
 					} else {
 						JOptionPane.showMessageDialog(null, "Tạo hóa đơn trước rồi mới thêm khách hàng!");
@@ -199,6 +201,15 @@ public class pnlBanHang extends JPanel implements ActionListener {
 		pnlThanhTien.add(lblNewLabel_2);
 
 		JButton btnNewButton = new JButton("Thanh Toán");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (hoaDon == null) {
+					JOptionPane.showMessageDialog(null, "Tạo hóa đơn trước khi thanh toán!");
+				} else {
+					new DialogThanhToan(hoaDon).setVisible(true);
+				}
+			}
+		});
 		btnNewButton.setBackground(Color.PINK);
 		btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnNewButton.setBounds(10, 115, 389, 33);
@@ -339,13 +350,14 @@ public class pnlBanHang extends JPanel implements ActionListener {
 
 						((DefaultTableModel) modelSanPham).addRow(new Object[] { modelSanPham.getRowCount(),
 								a.getThuoc().getMaThuoc(), a.getThuoc().getTenThuoc(), a.getThuoc().getDonViTinh(),
-								a.getSoLuong(), a.getGiaBan(), a.tinhTongTienChiTietHoaDon() });
+								a.getSoLuong(), chuyenDoiDinhDangTienTe(a.getGiaBan()),
+								chuyenDoiDinhDangTienTe(a.tinhTongTienChiTietHoaDon()) });
 
 						hoaDon.getListChiTietHoaDon().add(a);
 						System.out.println(hoaDon);
 						txtSoLuong.setText("1");
-						lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
-						lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
+						lblTongTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhTongTienHoaDon()));
+						lblThanhTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhThanhTienHoaDon()));
 						txtTenSanPham.setText("");
 						txtDonGia.setText("");
 						txtDonViTinh.setText("");
@@ -375,13 +387,14 @@ public class pnlBanHang extends JPanel implements ActionListener {
 
 							((DefaultTableModel) modelSanPham).addRow(new Object[] { modelSanPham.getRowCount(),
 									a.getThuoc().getMaThuoc(), a.getThuoc().getTenThuoc(), a.getThuoc().getDonViTinh(),
-									a.getSoLuong(), a.getGiaBan(), a.tinhTongTienChiTietHoaDon() });
+									a.getSoLuong(), chuyenDoiDinhDangTienTe(a.getGiaBan()),
+									chuyenDoiDinhDangTienTe(a.tinhTongTienChiTietHoaDon()) });
 
 							hoaDon.getListChiTietHoaDon().add(a);
 							System.out.println(hoaDon);
 							txtSoLuong.setText("1");
-							lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
-							lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
+							lblTongTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhTongTienHoaDon()));
+							lblThanhTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhThanhTienHoaDon()));
 							txtTenSanPham.setText("");
 							txtDonGia.setText("");
 							txtDonViTinh.setText("");
@@ -411,8 +424,8 @@ public class pnlBanHang extends JPanel implements ActionListener {
 							modelSanPham.setValueAt(
 									hoaDon.getListChiTietHoaDon().get(count).tinhTongTienChiTietHoaDon(), count, 6);
 							txtSoLuong.setText("1");
-							lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
-							lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
+							lblTongTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhTongTienHoaDon()));
+							lblThanhTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhThanhTienHoaDon()));
 							txtTenSanPham.setText("");
 							txtDonGia.setText("");
 							txtDonViTinh.setText("");
@@ -508,6 +521,12 @@ public class pnlBanHang extends JPanel implements ActionListener {
 		return true;
 	}
 
+	public String chuyenDoiDinhDangTienTe(double soTien) {
+		Locale localeVN = new Locale("vi", "VN");
+		NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
+		return currencyVN.format(soTien);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
@@ -529,8 +548,8 @@ public class pnlBanHang extends JPanel implements ActionListener {
 				if (i == 0) {
 					((DefaultTableModel) modelSanPham).removeRow(index);
 					hoaDon.xoaChiTietHoaDon(index);
-					lblTongTien.setText(Double.toString(hoaDon.tinhTongTienHoaDon()));
-					lblThanhTien.setText(Double.toString(hoaDon.tinhThanhTienHoaDon()));
+					lblTongTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhTongTienHoaDon()));
+					lblThanhTien.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhThanhTienHoaDon()));
 				}
 			}
 		}
