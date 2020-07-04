@@ -23,6 +23,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TrangChu extends JFrame {
 
@@ -31,17 +33,17 @@ public class TrangChu extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					TrangChu frame = new TrangChu();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+//	public static void main(String[] args) {
+//		EventQueue.invokeLater(new Runnable() {
+//			public void run() {
+//				try {
+//					TrangChu frame = new TrangChu();
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
+//	}
 
 	/**
 	 * Create the frame.
@@ -105,7 +107,7 @@ public class TrangChu extends JFrame {
 		pnlCenter.setLayout(null);
 		
 		JLabel lblGioiThieu_1 = new JLabel("Chào mừng các bạn đến với chương trình quản lý hiệu thuốc của chúng tôi.");
-		lblGioiThieu_1.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblGioiThieu_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblGioiThieu_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGioiThieu_1.setBounds(243, 180, 554, 30);
 		pnlCenter.add(lblGioiThieu_1);
@@ -117,15 +119,15 @@ public class TrangChu extends JFrame {
 		pnlCenter.add(lblLogo_1);
 		
 		JLabel lblGioiThieu_2 = new JLabel("Đây là một sản phẩm bài tập lớn cuối kỳ môn lập trình hướng sự kiện với công nghệ Java do cô Trần Thị Anh Thi giảng dạy.");
-		lblGioiThieu_2.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblGioiThieu_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblGioiThieu_2.setHorizontalAlignment(SwingConstants.CENTER);
-		lblGioiThieu_2.setBounds(63, 222, 913, 15);
+		lblGioiThieu_2.setBounds(65, 221, 913, 30);
 		pnlCenter.add(lblGioiThieu_2);
 		
 		JLabel lblChcCcBn = new JLabel("Chúc các bạn trảinghiệm vui vẻ.");
-		lblChcCcBn.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblChcCcBn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblChcCcBn.setHorizontalAlignment(SwingConstants.CENTER);
-		lblChcCcBn.setBounds(229, 249, 582, 15);
+		lblChcCcBn.setBounds(226, 262, 582, 30);
 		pnlCenter.add(lblChcCcBn);
 		
 		JButton btnDangNhap = new JButton("Đăng nhập");
@@ -144,8 +146,21 @@ public class TrangChu extends JFrame {
 		});
 		btnDangNhap.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnDangNhap.setFont(new Font("Dialog", Font.BOLD, 15));
-		btnDangNhap.setBounds(432, 311, 175, 132);
+		btnDangNhap.setBounds(314, 314, 175, 132);
 		btnDangNhap.setBackground(new Color(234,172,157));
 		pnlCenter.add(btnDangNhap);
+		
+		JButton btnDangKy = new JButton("Đăng ký");
+		btnDangKy.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				new FormDangKy().setVisible(true);
+			}
+		});
+		btnDangKy.setFont(new Font("Dialog", Font.BOLD, 15));
+		btnDangKy.setBorder(new EmptyBorder(0, 0, 0, 0));
+		btnDangKy.setBackground(new Color(128, 189, 171));
+		btnDangKy.setBounds(539, 314, 175, 132);
+		pnlCenter.add(btnDangKy);
 	}
 }

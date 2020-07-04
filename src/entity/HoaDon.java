@@ -2,11 +2,11 @@ package entity;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.sql.*;
 public class HoaDon {
 	private String maHD;
 	private double vAT;
-	private Date ngayLap;
+	private Timestamp ngayLap;
 	private NhanVien nhanVien;
 	private KhachHang khachHang;
 	private ArrayList<ChiTietHoaDon> listChiTietHoaDon;
@@ -58,7 +58,7 @@ public class HoaDon {
 		return ngayLap;
 	}
 
-	public void setNgayLap(Date ngayLap) {
+	public void setNgayLap(Timestamp ngayLap) {
 		this.ngayLap = ngayLap;
 	}
 
@@ -70,7 +70,7 @@ public class HoaDon {
 		this.listChiTietHoaDon = listChiTietHoaDon;
 	}
 
-	public HoaDon(String maHD, double vAT, Date ngayLap) {
+	public HoaDon(String maHD, double vAT, Timestamp ngayLap) {
 		super();
 		this.maHD = maHD;
 		this.vAT = vAT;

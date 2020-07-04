@@ -34,6 +34,10 @@ public class NhaCungCap {
 		this.diaChi = diaChi;
 	}
 
+	public NhaCungCap() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String toString() {
 		return "NhaCungCap [maNhaCungCap=" + maNhaCungCap + ", tenNhaCungCap=" + tenNhaCungCap + ", diaChi=" + diaChi

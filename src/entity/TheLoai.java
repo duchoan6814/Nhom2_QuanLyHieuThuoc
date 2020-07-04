@@ -34,6 +34,10 @@ public class TheLoai {
 		this.moTa = moTa;
 	}
 
+	public TheLoai() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String toString() {
 		return "TheLoai [maTheLoai=" + maTheLoai + ", tenTheLoai=" + tenTheLoai + ", moTa=" + moTa + "]";

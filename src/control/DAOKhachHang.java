@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import connectDB.DAO;
 import entity.KhachHang;
 
 public class DAOKhachHang extends DAO {
@@ -48,6 +49,21 @@ public class DAOKhachHang extends DAO {
 			return null;
 		}
 		
+	}
+	
+	public boolean setDiemTichLuy(double diemTichLuy, String maKH, double tongTienHoaDon) {
+		String sql = "update [dbo].[KhachHang] set [DiemTichLuy] = DiemTichLuy - ? + 0.01 * ? where MaKH = ? ";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setDouble(1, diemTichLuy);
+			ps.setDouble(2, tongTienHoaDon);
+			ps.setString(3, maKH);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 	public static void main(String[] args) {
