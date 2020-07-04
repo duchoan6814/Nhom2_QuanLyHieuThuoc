@@ -24,6 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.ArrayList;
 import java.awt.Dimension;
 
@@ -56,6 +58,15 @@ public class TimKiem extends JDialog {
 	private JPanel pnlActive_9;
 	private JPanel pnlActive_10;
 	private ArrayList<Thuoc> thuocTemp = new ArrayList<Thuoc>();
+	private String maThuocChon = "";
+
+	public String getMaThuocChon() {
+		return maThuocChon;
+	}
+
+	public void setMaThuocChon(String maThuocChon) {
+		this.maThuocChon = maThuocChon;
+	}
 
 	/**
 	 * Launch the application.
@@ -184,9 +195,9 @@ public class TimKiem extends JDialog {
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("1"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("1"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -222,13 +233,13 @@ public class TimKiem extends JDialog {
 				pnlActive_8.setVisible(false);
 				pnlActive_9.setVisible(false);
 				pnlActive_10.setVisible(false);
-				
+
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("10"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("10"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -264,13 +275,13 @@ public class TimKiem extends JDialog {
 				pnlActive_8.setVisible(false);
 				pnlActive_9.setVisible(false);
 				pnlActive_10.setVisible(false);
-				
+
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("2"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("2"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -306,13 +317,13 @@ public class TimKiem extends JDialog {
 				pnlActive_8.setVisible(false);
 				pnlActive_9.setVisible(false);
 				pnlActive_10.setVisible(false);
-				
+
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("3"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("3"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -348,13 +359,13 @@ public class TimKiem extends JDialog {
 				pnlActive_8.setVisible(false);
 				pnlActive_9.setVisible(false);
 				pnlActive_10.setVisible(false);
-				
+
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("4"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("4"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -390,13 +401,13 @@ public class TimKiem extends JDialog {
 				pnlActive_8.setVisible(false);
 				pnlActive_9.setVisible(false);
 				pnlActive_10.setVisible(false);
-				
+
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("5"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("5"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -432,13 +443,13 @@ public class TimKiem extends JDialog {
 				pnlActive_8.setVisible(false);
 				pnlActive_9.setVisible(false);
 				pnlActive_10.setVisible(false);
-				
+
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("6"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("6"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -474,13 +485,13 @@ public class TimKiem extends JDialog {
 				pnlActive_8.setVisible(true);
 				pnlActive_9.setVisible(false);
 				pnlActive_10.setVisible(false);
-				
+
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("7"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("7"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -519,9 +530,9 @@ public class TimKiem extends JDialog {
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("8"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("8"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -560,9 +571,9 @@ public class TimKiem extends JDialog {
 				((DefaultTableModel) thuocModal).setRowCount(0);
 
 				for (Thuoc thuoc : thuocTemp) {
-					if(thuoc.getLoai().getMaTheLoai().equals("9"))
-					((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
-							thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
+					if (thuoc.getLoai().getMaTheLoai().equals("9"))
+						((DefaultTableModel) thuocModal).addRow(new Object[] { thuoc.getMaThuoc(), thuoc.getTenThuoc(),
+								thuoc.getGia(), thuoc.getLoai().getTenTheLoai(), thuoc.getDonViTinh() });
 				}
 			}
 		});
@@ -609,6 +620,56 @@ public class TimKiem extends JDialog {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("table");
+				int index = tblDSThuoc.getSelectedRow();
+				ChiTietTimKiem chiTietTimKiem = new ChiTietTimKiem(tblDSThuoc.getValueAt(index, 0).toString());
+				chiTietTimKiem.setVisible(true);
+				chiTietTimKiem.addWindowListener(new WindowListener() {
+
+					@Override
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowClosing(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+
+					@Override
+					public void windowClosed(WindowEvent e) {
+						// TODO Auto-generated method stub
+						if (chiTietTimKiem.isChoose()) {
+							setMaThuocChon(tblDSThuoc.getValueAt(tblDSThuoc.getSelectedRow(), 0).toString());
+							dispose();
+						}
+					}
+
+					@Override
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+				});
 			}
 		});
 		JScrollPane scrDSThuoc = new JScrollPane(tblDSThuoc);

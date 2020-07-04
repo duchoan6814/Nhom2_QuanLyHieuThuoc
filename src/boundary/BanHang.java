@@ -35,6 +35,8 @@ import java.awt.FlowLayout;
 import javax.swing.ImageIcon;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 
@@ -52,7 +54,20 @@ public class BanHang extends JFrame {
 	private pnlBanHang pnlBanHang_1;
 	private NhanVien nhanVien;
 	private String username;
+	private String maThuocTimKiemChon;
+	private pnlQuanLyHoaDon pnlQuanLyHoaDon;
+	private JPanel pnlCenter;
 	
+	
+	
+
+	public String getMaThuocTimKiemChon() {
+		return maThuocTimKiemChon;
+	}
+
+	public void setMaThuocTimKiemChon(String maThuocTimKiemChon) {
+		this.maThuocTimKiemChon = maThuocTimKiemChon;
+	}
 
 	public String getUsername() {
 		return username;
@@ -180,6 +195,50 @@ public class BanHang extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				TimKiem timKiem = new TimKiem(txtTimKiem.getText());
 				timKiem.setVisible(true);
+				timKiem.addWindowListener(new WindowListener() {
+					
+					@Override
+					public void windowOpened(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowIconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeiconified(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowDeactivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowClosing(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+					
+					@Override
+					public void windowClosed(WindowEvent e) {
+						// TODO Auto-generated method stub
+						pnlBanHang_1.khiTimKiemXong(timKiem.getMaThuocChon());
+					}
+					
+					@Override
+					public void windowActivated(WindowEvent e) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 			}
 		});
 		btnTimKiem.setIcon(new ImageIcon(ImageIO.read(new File("Icon\\search.png"))));
@@ -188,6 +247,13 @@ public class BanHang extends JFrame {
 		pnlChucNangBanHang.add(btnTimKiem);
 		
 		JButton btnChucNangHoaDon = new JButton("Hóa đơn");
+		btnChucNangHoaDon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cardLayout = (CardLayout) pnlCenter.getLayout();
+				cardLayout.show(pnlCenter, "pnlQuanLyHoaDon");
+			}
+		});
 		btnChucNangHoaDon.setIcon(new ImageIcon(ImageIO.read(new File("Icon\\bill.png"))));
 		btnChucNangHoaDon.setBackground(new Color(255, 153, 102));
 		btnChucNangHoaDon.setBounds(12, 120, 236, 41);
@@ -201,6 +267,7 @@ public class BanHang extends JFrame {
 		JButton btnChucNangKhachHang = new JButton("Khách hàng");
 		btnChucNangKhachHang.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 			}
 		});
 		btnChucNangKhachHang.setBackground(new Color(255, 153, 102));
@@ -313,12 +380,16 @@ public class BanHang extends JFrame {
 		pnlChoose_2.setBounds(260, 0, 10, 57);
 		pnlBtnBanHang_2.add(pnlChoose_2);
 		
-		JPanel pnlCenter = new JPanel();
+		pnlCenter = new JPanel();
 		pnlContent.add(pnlCenter, BorderLayout.CENTER);
 		pnlCenter.setLayout(new CardLayout(0, 0));
 		
 		pnlBanHang_1 = new pnlBanHang(userName);
 		pnlCenter.add(pnlBanHang_1, "pnlBanHang");
 		pnlBanHang_1.setLayout(null);
+		
+		pnlQuanLyHoaDon = new pnlQuanLyHoaDon();
+		pnlCenter.add(pnlQuanLyHoaDon, "pnlQuanLyHoaDon");
+		pnlQuanLyHoaDon.setLayout(null);
 	}
 }

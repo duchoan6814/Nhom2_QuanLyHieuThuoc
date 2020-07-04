@@ -77,9 +77,11 @@ public class pnlBanHang extends JPanel implements ActionListener {
 	private NhanVien nhanVienBanHang;
 	private JLabel lblTenKhachHang;
 	private JLabel lblDiemTichLuy;
+
 	/**
 	 * Create the panel.
 	 */
+
 	public pnlBanHang(String userName) {
 		nhanVienBanHang = new NhanVien(daoNhanVien.getInforNhanVien(userName).getMaNhanVien());
 		setBackground(new Color(248, 243, 235));
@@ -215,41 +217,41 @@ public class pnlBanHang extends JPanel implements ActionListener {
 						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 						dialog.setVisible(true);
 						dialog.addWindowListener(new WindowListener() {
-							
+
 							@Override
 							public void windowOpened(WindowEvent e) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void windowIconified(WindowEvent e) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void windowDeiconified(WindowEvent e) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void windowDeactivated(WindowEvent e) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void windowClosing(WindowEvent e) {
 								// TODO Auto-generated method stub
-								
+
 							}
-							
+
 							@Override
 							public void windowClosed(WindowEvent e) {
 								// TODO Auto-generated method stub
-								if(dialog.isCheckThanhToan()) {
+								if (dialog.isCheckThanhToan()) {
 									((DefaultTableModel) modelSanPham).setRowCount(0);
 									lblTongTien.setText("0");
 									lblThanhTien.setText("0");
@@ -258,13 +260,13 @@ public class pnlBanHang extends JPanel implements ActionListener {
 									lblDiemTichLuy.setText("Điểm tích lũy: Null");
 									td.setText("");
 								}
-								
+
 							}
-							
+
 							@Override
 							public void windowActivated(WindowEvent e) {
 								// TODO Auto-generated method stub
-								
+
 							}
 						});
 					} catch (Exception e1) {
@@ -399,11 +401,23 @@ public class pnlBanHang extends JPanel implements ActionListener {
 				if (modelSanPham.getRowCount() == 0) {
 					hoaDon = new HoaDon(UUID.randomUUID().toString(), 0.03, new Timestamp(new Date().getTime()));
 					hoaDon.setNhanVien(nhanVienBanHang);
+					String maThuoc;
+					try {
+						maThuoc = cbxMaSanPham.getSelectedItem().toString();
+					} catch (Exception e2) {
+						// TODO: handle exception
+						maThuoc = tc.getText();
+					}
 
-					if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()),
-							cbxMaSanPham.getSelectedItem().toString())) {
+					if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()), maThuoc)) {
 						Thuoc thuocTemp = new Thuoc();
-						thuocTemp.setMaThuoc(cbxMaSanPham.getSelectedItem().toString());
+						try {
+							thuocTemp.setMaThuoc(cbxMaSanPham.getSelectedItem().toString());
+						} catch (Exception e2) {
+							// TODO: handle exception
+							thuocTemp.setMaThuoc(tc.getText());
+						}
+						
 						thuocTemp.setTenThuoc(txtTenSanPham.getText());
 						thuocTemp.setDonViTinh(txtDonViTinh.getText());
 						thuocTemp.setGia(Double.parseDouble(txtDonGia.getText()));
@@ -544,6 +558,14 @@ public class pnlBanHang extends JPanel implements ActionListener {
 
 	}
 
+	public JTextComponent getTc() {
+		return tc;
+	}
+
+	public void setTc(JTextComponent tc) {
+		this.tc = tc;
+	}
+
 	public boolean validateMaThuoc() {
 		if (txtTenSanPham.getText().contentEquals("")) {
 			JOptionPane.showMessageDialog(this, "Vui Lòng chọn thuốc!");
@@ -588,6 +610,18 @@ public class pnlBanHang extends JPanel implements ActionListener {
 		Locale localeVN = new Locale("vi", "VN");
 		NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 		return currencyVN.format(soTien);
+	}
+
+	public void khiTimKiemXong(String maThuoc) {
+		tc.setText(maThuoc);
+		Thuoc thuoc = ctrlThuoc.getThuocBan(maThuoc);
+		if (thuoc == null) {
+			JOptionPane.showMessageDialog(null, "Xảy ra lỗi!");
+		} else {
+			txtTenSanPham.setText(thuoc.getTenThuoc());
+			txtDonGia.setText(Double.toString(thuoc.getGia()));
+			txtDonViTinh.setText(thuoc.getDonViTinh());
+		}
 	}
 
 	@Override

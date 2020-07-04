@@ -16,6 +16,8 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class ChiTietTimKiem extends JDialog {
 
@@ -30,13 +32,24 @@ public class ChiTietTimKiem extends JDialog {
 	private JLabel lblNCC;
 	private JLabel lblMoTa;
 	private Thuoc thuoc;
+	private boolean isChoose = false;
+	
+	
+
+	public boolean isChoose() {
+		return isChoose;
+	}
+
+	public void setChoose(boolean isChoose) {
+		this.isChoose = isChoose;
+	}
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			ChiTietTimKiem dialog = new ChiTietTimKiem();
+			ChiTietTimKiem dialog = new ChiTietTimKiem("nv");
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -47,7 +60,7 @@ public class ChiTietTimKiem extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public ChiTietTimKiem() {
+	public ChiTietTimKiem(String maThuoc) {
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 529, 419);
@@ -145,12 +158,27 @@ public class ChiTietTimKiem extends JDialog {
 		contentPanel.add(lblMoTa);
 		
 		JButton btnThem = new JButton("Thêm");
+		btnThem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				isChoose = true;
+				dispose();
+			}
+		});
 		btnThem.setBounds(143, 341, 89, 23);
 		contentPanel.add(btnThem);
 		
 		JButton btnThoat = new JButton("Thoát");
+		btnThoat.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
 		btnThoat.setBounds(242, 341, 89, 23);
 		contentPanel.add(btnThoat);
+		
+		setDataForDialog(maThuoc);
 	}
 	
 	public void setDataForDialog(String str) {
@@ -159,6 +187,14 @@ public class ChiTietTimKiem extends JDialog {
 			JOptionPane.showMessageDialog(null, "Có lỗi sảy ra!");
 		}else {
 			lblMaThuoc.setText(thuoc.getMaThuoc());
+			lblTenThuoc.setText(thuoc.getTenThuoc());
+			lblGiaThuoc.setText(Double.toString(thuoc.getGia()));
+			lblDonViTinh.setText(thuoc.getDonViTinh());
+			lblHanSuDung.setText(thuoc.getHanSuDung());
+			lblTonKho.setText(Integer.toString(thuoc.getSoLuong()));
+			lblLoaiThuoc.setText(thuoc.getLoai().getTenTheLoai());
+			lblNCC.setText(thuoc.getNhaCungCap().getTenNhaCungCap());
+			lblMoTa.setText(thuoc.getMoTa());
 		}
 	}
 }
