@@ -7,6 +7,16 @@ public class NhanVien {
 	private Date ngaySinh;
 	private double luongTrenGio, soGioLam;
 	private boolean gioiTinh;
+	private TaiKhoan taiKhoan;
+	
+
+	public TaiKhoan getTaiKhoan() {
+		return taiKhoan;
+	}
+
+	public void setTaiKhoan(TaiKhoan taiKhoan) {
+		this.taiKhoan = taiKhoan;
+	}
 
 	public String getMaNhanVien() {
 		return maNhanVien;

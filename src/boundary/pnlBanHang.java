@@ -41,11 +41,15 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.Dimension;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.border.LineBorder;
 import javax.swing.JScrollPane;
 import javax.swing.border.EtchedBorder;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.sql.Timestamp;
 import java.text.NumberFormat;
 
 public class pnlBanHang extends JPanel implements ActionListener {
@@ -73,7 +77,6 @@ public class pnlBanHang extends JPanel implements ActionListener {
 	private NhanVien nhanVienBanHang;
 	private JLabel lblTenKhachHang;
 	private JLabel lblDiemTichLuy;
-
 	/**
 	 * Create the panel.
 	 */
@@ -135,6 +138,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 					if (hoaDon != null) {
 						lblTenKhachHang.setText("Khách hàng: " + tempKH.getHoTenDem() + " " + tempKH.getTen());
 						lblDiemTichLuy.setText("Điểm tích lũy: " + tempKH.getDiemTichLuy());
+						hoaDon.setKhachHang(tempKH);
 					} else {
 						JOptionPane.showMessageDialog(null, "Tạo hóa đơn trước rồi mới thêm khách hàng!");
 					}
@@ -206,7 +210,66 @@ public class pnlBanHang extends JPanel implements ActionListener {
 				if (hoaDon == null) {
 					JOptionPane.showMessageDialog(null, "Tạo hóa đơn trước khi thanh toán!");
 				} else {
-					new DialogThanhToan(hoaDon).setVisible(true);
+					try {
+						DialogThanhToan dialog = new DialogThanhToan(hoaDon);
+						dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+						dialog.setVisible(true);
+						dialog.addWindowListener(new WindowListener() {
+							
+							@Override
+							public void windowOpened(WindowEvent e) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void windowIconified(WindowEvent e) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void windowDeiconified(WindowEvent e) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void windowDeactivated(WindowEvent e) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void windowClosing(WindowEvent e) {
+								// TODO Auto-generated method stub
+								
+							}
+							
+							@Override
+							public void windowClosed(WindowEvent e) {
+								// TODO Auto-generated method stub
+								if(dialog.isCheckThanhToan()) {
+									((DefaultTableModel) modelSanPham).setRowCount(0);
+									lblTongTien.setText("0");
+									lblThanhTien.setText("0");
+									hoaDon = null;
+									lblTenKhachHang.setText("Tên khách hàng: Null");
+									lblDiemTichLuy.setText("Điểm tích lũy: Null");
+									td.setText("");
+								}
+								
+							}
+							
+							@Override
+							public void windowActivated(WindowEvent e) {
+								// TODO Auto-generated method stub
+								
+							}
+						});
+					} catch (Exception e1) {
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -334,7 +397,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 					return;
 				}
 				if (modelSanPham.getRowCount() == 0) {
-					hoaDon = new HoaDon(UUID.randomUUID().toString(), 0.03, new Date());
+					hoaDon = new HoaDon(UUID.randomUUID().toString(), 0.03, new Timestamp(new Date().getTime()));
 					hoaDon.setNhanVien(nhanVienBanHang);
 
 					if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()),

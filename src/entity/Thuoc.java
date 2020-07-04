@@ -4,15 +4,26 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Thuoc {
-	private String maThuoc, tenThuoc, moTa, donViTinh;
+	private String maThuoc, tenThuoc, moTa, donViTinh, hanSuDung;
 	private double gia;
-	private Date ngaySanXuat, ngayHetHan;
 	private NhaCungCap nhaCungCap;
-	private ArrayList<TheLoai> listTheLoai;
+	private TheLoai loai;
 	private int soLuong;
 	
 	
 	
+	public String getHanSuDung() {
+		return hanSuDung;
+	}
+	public void setHanSuDung(String hanSuDung) {
+		this.hanSuDung = hanSuDung;
+	}
+	public TheLoai getLoai() {
+		return loai;
+	}
+	public void setLoai(TheLoai loai) {
+		this.loai = loai;
+	}
 	public int getSoLuong() {
 		return soLuong;
 	}
@@ -49,41 +60,18 @@ public class Thuoc {
 	public void setGia(double gia) {
 		this.gia = gia;
 	}
-	public Date getNgaySanXuat() {
-		return ngaySanXuat;
-	}
-	public void setNgaySanXuat(Date ngaySanXuat) {
-		this.ngaySanXuat = ngaySanXuat;
-	}
-	public Date getNgayHetHan() {
-		return ngayHetHan;
-	}
-	public void setNgayHetHan(Date ngayHetHan) {
-		this.ngayHetHan = ngayHetHan;
-	}
+	
 	public NhaCungCap getNhaCungCap() {
 		return nhaCungCap;
 	}
 	public void setNhaCungCap(NhaCungCap nhaCungCap) {
 		this.nhaCungCap = nhaCungCap;
 	}
-	public ArrayList<TheLoai> getListTheLoai() {
-		return listTheLoai;
-	}
-	public void setListTheLoai(ArrayList<TheLoai> listTheLoai) {
-		this.listTheLoai = listTheLoai;
-	}
 	
 	public Thuoc() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	@Override
-	public String toString() {
-		return "Thuoc [maThuoc=" + maThuoc + ", tenThuoc=" + tenThuoc + ", moTa=" + moTa + ", donViTinh=" + donViTinh
-				+ ", gia=" + gia + ", ngaySanXuat=" + ngaySanXuat + ", ngayHetHan=" + ngayHetHan + ", nhaCungCap="
-				+ nhaCungCap + ", listTheLoai=" + listTheLoai + ", soLuong=" + soLuong + "]";
-	}
 	
 	@Override
 	public int hashCode() {
@@ -93,18 +81,14 @@ public class Thuoc {
 		return result;
 	}
 	
-	public Thuoc(String maThuoc, String tenThuoc, String moTa, String donViTinh, double gia, Date ngaySanXuat,
-			Date ngayHetHan, NhaCungCap nhaCungCap, ArrayList<TheLoai> listTheLoai, int soLuong) {
+	public Thuoc(String maThuoc, String tenThuoc, String moTa, String donViTinh, double gia, NhaCungCap nhaCungCap, int soLuong) {
 		super();
 		this.maThuoc = maThuoc;
 		this.tenThuoc = tenThuoc;
 		this.moTa = moTa;
 		this.donViTinh = donViTinh;
 		this.gia = gia;
-		this.ngaySanXuat = ngaySanXuat;
-		this.ngayHetHan = ngayHetHan;
 		this.nhaCungCap = nhaCungCap;
-		this.listTheLoai = listTheLoai;
 		this.soLuong = soLuong;
 	}
 	@Override

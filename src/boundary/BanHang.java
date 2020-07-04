@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import java.awt.Color;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.SwingConstants;
 import java.awt.GridLayout;
@@ -41,9 +43,6 @@ import javax.swing.JTextField;
 public class BanHang extends JFrame {
 
 	private JPanel pnlContent;
-	private JPanel pnlBanHang;
-	private JPanel pnlQuanLyKho;
-	private JPanel pnlQuanLyKhachHang;
 	private JPanel pnlChoose;
 	private JPanel pnlChoose_1;
 	private JPanel pnlChoose_2;
@@ -176,6 +175,13 @@ public class BanHang extends JFrame {
 		txtTimKiem.setColumns(10);
 		
 		JButton btnTimKiem = new JButton("Tìm kiếm");
+		btnTimKiem.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				TimKiem timKiem = new TimKiem(txtTimKiem.getText());
+				timKiem.setVisible(true);
+			}
+		});
 		btnTimKiem.setIcon(new ImageIcon(ImageIO.read(new File("Icon\\search.png"))));
 		btnTimKiem.setBackground(new Color(249,170,166));
 		btnTimKiem.setBounds(12, 57, 236, 41);
@@ -230,8 +236,6 @@ public class BanHang extends JFrame {
 			public void mouseClicked(MouseEvent e) {
 				pnlChoose.setVisible(true);
 				pnlChoose_1.setVisible(false);
-				pnlBanHang.setVisible(true);
-				pnlQuanLyKho.setVisible(false);
 				CardLayout cardLayout = (CardLayout) pnlRightTop.getLayout();
 				cardLayout.show(pnlRightTop, "name_7662591450020");
 			}
@@ -259,8 +263,6 @@ public class BanHang extends JFrame {
 				pnlChoose.setVisible(false);
 				pnlChoose_1.setVisible(true);
 				pnlChoose_2.setVisible(false);
-				pnlBanHang.setVisible(false);
-				pnlQuanLyKho.setVisible(true);
 				CardLayout cardLayout = (CardLayout) pnlRightTop.getLayout();
 				cardLayout.show(pnlRightTop, "name_7698100502550");
 			}
@@ -283,6 +285,17 @@ public class BanHang extends JFrame {
 		pnlBtnBanHang_1.add(pnlChoose_1);
 		
 		JPanel pnlBtnBanHang_2 = new JPanel();
+		pnlBtnBanHang_2.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				int dialogResult = JOptionPane.showConfirmDialog (null, "Bạn có muốn đăng xuất?");
+				if(dialogResult == JOptionPane.YES_OPTION){
+				  // Saving code here
+					new TrangChu().setVisible(true);
+					dispose();
+				}
+			}
+		});
 		pnlBtnBanHang_2.setLayout(null);
 		pnlBtnBanHang_2.setBackground(new Color(249, 170, 166));
 		pnlBtnBanHang_2.setBounds(0, 176, 270, 57);
@@ -307,26 +320,5 @@ public class BanHang extends JFrame {
 		pnlBanHang_1 = new pnlBanHang(userName);
 		pnlCenter.add(pnlBanHang_1, "pnlBanHang");
 		pnlBanHang_1.setLayout(null);
-		
-		pnlBanHang = new JPanel();
-		pnlBanHang.setBackground(new Color(255, 255, 255));
-		pnlCenter.add(pnlBanHang, "name_9360759794372");
-		pnlBanHang.setLayout(null);
-		
-		JLabel lblBanHang = new JLabel("Ban hang");
-		lblBanHang.setBounds(315, 215, 105, 60);
-		pnlBanHang.add(lblBanHang);
-		
-		pnlQuanLyKho = new JPanel();
-		pnlCenter.add(pnlQuanLyKho, "name_12411946057369");
-		
-		JLabel lblQuanLyKho = new JLabel("quan ly kho");
-		pnlQuanLyKho.add(lblQuanLyKho);
-		
-		pnlQuanLyKhachHang = new JPanel();
-		pnlCenter.add(pnlQuanLyKhachHang, "name_12466511581385");
-		
-		JLabel lblQunaLyKhach = new JLabel("quna ly khach hang");
-		pnlQuanLyKhachHang.add(lblQunaLyKhach);
 	}
 }

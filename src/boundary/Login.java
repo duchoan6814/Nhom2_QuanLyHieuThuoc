@@ -11,9 +11,13 @@ import javax.swing.border.EmptyBorder;
 import control.DAONhanVien;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -27,21 +31,21 @@ public class Login extends JDialog implements ActionListener {
 	private JTextField txtUserName;
 	private JPasswordField txtPassword;
 	private boolean checkLogin = false;
-	
-	
+	private JButton btnDangNhap;
+	private JButton btnThoat;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		try {
-			Login dialog = new Login();
-			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-			dialog.setVisible(true);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+//	public static void main(String[] args) {
+//		try {
+//			Login dialog = new Login();
+//			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+//			dialog.setVisible(true);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	public boolean isCheckLogin() {
 		return checkLogin;
@@ -57,7 +61,7 @@ public class Login extends JDialog implements ActionListener {
 	public Login() {
 		setBounds(100, 100, 297, 397);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBackground(new Color(248,238,238));
+		contentPanel.setBackground(new Color(248, 238, 238));
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
@@ -72,60 +76,124 @@ public class Login extends JDialog implements ActionListener {
 			lblUserName.setBounds(12, 90, 100, 15);
 			contentPanel.add(lblUserName);
 		}
-		
+
 		txtUserName = new JTextField();
 		txtUserName.setBounds(12, 112, 256, 29);
 		contentPanel.add(txtUserName);
 		txtUserName.setColumns(10);
-		
+
 		JLabel lblPassword = new JLabel("Password");
 		lblPassword.setBounds(12, 153, 106, 15);
 		contentPanel.add(lblPassword);
-		
+
 		txtPassword = new JPasswordField();
 		txtPassword.setBounds(12, 180, 256, 29);
 		contentPanel.add(txtPassword);
-		
-		JButton btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
-		btnDangNhap.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				if(new DAONhanVien().getNhanVien(txtUserName.getText(), txtPassword.getText())) {
+		txtPassword.addActionListener(this);
+
+		btnDangNhap = new JButton("\u0110\u0103ng nh\u1EADp");
+		btnDangNhap.addActionListener(this);
+		btnDangNhap.setForeground(new Color(255, 255, 255));
+		btnDangNhap.setBackground(new Color(122, 122, 122));
+		btnDangNhap.setBounds(12, 259, 117, 25);
+		contentPanel.add(btnDangNhap);
+
+		btnThoat = new JButton("Tho\u00E1t");
+		btnThoat.setForeground(new Color(255, 255, 255));
+		btnThoat.setBackground(new Color(122, 122, 122));
+		btnThoat.setBounds(151, 259, 117, 25);
+		contentPanel.add(btnThoat);
+		btnThoat.addActionListener(this);
+
+		JCheckBox chkNhoMatKhau = new JCheckBox("Nh\u1EDB m\u1EADt kh\u1EA9u");
+		chkNhoMatKhau.setBackground(new Color(248, 238, 238));
+		chkNhoMatKhau.setBounds(12, 217, 129, 23);
+		contentPanel.add(chkNhoMatKhau);
+
+		addWindowListener(new WindowListener() {
+
+			@Override
+			public void windowOpened(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowIconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowClosing(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void windowClosed(WindowEvent e) {
+				// TODO Auto-generated method stub
+				if (!checkLogin) {
 					EventQueue.invokeLater(new Runnable() {
 						public void run() {
 							try {
-								BanHang frame = new BanHang(txtUserName.getText());
-								frame.setVisible(true);
+								TrangChu frame = new TrangChu();
 							} catch (Exception e) {
 								e.printStackTrace();
 							}
 						}
 					});
-					
-					setCheckLogin(true);
 				}
 			}
+
+			@Override
+			public void windowActivated(WindowEvent e) {
+				// TODO Auto-generated method stub
+
+			}
 		});
-		btnDangNhap.setForeground(new Color(255, 255, 255));
-		btnDangNhap.setBackground(new Color(122,122,122));
-		btnDangNhap.setBounds(12, 259, 117, 25);
-		contentPanel.add(btnDangNhap);
-		
-		JButton btnThoat = new JButton("Tho\u00E1t");
-		btnThoat.setForeground(new Color(255, 255, 255));
-		btnThoat.setBackground(new Color(122,122,122));
-		btnThoat.setBounds(151, 259, 117, 25);
-		contentPanel.add(btnThoat);
-		
-		JCheckBox chkNhoMatKhau = new JCheckBox("Nh\u1EDB m\u1EADt kh\u1EA9u");
-		chkNhoMatKhau.setBackground(new Color(248,238,238));
-		chkNhoMatKhau.setBounds(12, 217, 129, 23);
-		contentPanel.add(chkNhoMatKhau);
-		
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		Object obj = e.getSource();
+		if (obj.equals(btnDangNhap) || obj.equals(txtPassword)) {
+			System.out.println("dang chay");
+			if (new DAONhanVien().getNhanVien(txtUserName.getText(), txtPassword.getText())) {
+				EventQueue.invokeLater(new Runnable() {
+					public void run() {
+						try {
+							BanHang frame = new BanHang(txtUserName.getText());
+							frame.setVisible(true);
+							dispose();
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
+				});
+
+				setCheckLogin(true);
+			} else {
+				JOptionPane.showMessageDialog(null, "Tên tài khoản hoặc mật khẩu không đúng!");
+			}
+		}
+
+		if (obj.equals(btnThoat)) {
+			dispose();
+		}
 	}
+
 }

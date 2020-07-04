@@ -1,4 +1,4 @@
-package control;
+package connectDB;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;

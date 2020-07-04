@@ -10,6 +10,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import control.DAOChiTietHoaDon;
+import control.DAOHoaDon;
+import control.DAOKhachHang;
+import entity.ChiTietHoaDon;
 import entity.HoaDon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -19,6 +23,8 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.awt.Color;
 import javax.swing.JTextField;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class DialogThanhToan extends JDialog {
 
@@ -26,6 +32,7 @@ public class DialogThanhToan extends JDialog {
 	private JTextField txtSoTienKhachDua;
 	private JTextField txtSuDungDiem;
 	private double soTienKhachDua;
+	private boolean checkThanhToan = false;
 
 	/**
 	 * Launch the application.
@@ -148,6 +155,35 @@ public class DialogThanhToan extends JDialog {
 		txtSoTienKhachDua.setColumns(10);
 
 		JButton btnThanhToan = new JButton("Thanh Toán");
+		btnThanhToan.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				double a;
+				try {
+					a = Double.parseDouble(txtSoTienKhachDua.getText());
+				} catch (Exception e2) {
+					// TODO: handle exception
+					a = 0;
+				}
+				if (a < hoaDon.tinhThanhTienHoaDon()) {
+					JOptionPane.showMessageDialog(null, "Khách chưa đưa đủ tiền!");
+				} else {
+					if (!new DAOHoaDon().insertHoaDon(hoaDon)) {
+						JOptionPane.showMessageDialog(null, "error");
+					}
+					for (ChiTietHoaDon i : hoaDon.getListChiTietHoaDon()) {
+						new DAOChiTietHoaDon().insertChiTietHoaDon(hoaDon.getMaHD(), i);
+					}
+					if (hoaDon.getKhachHang() != null) {
+						new DAOKhachHang().setDiemTichLuy(hoaDon.getDiemSuDung(), hoaDon.getKhachHang().getMaKH(), hoaDon.tinhThanhTienHoaDon() + hoaDon.getDiemSuDung());
+					}
+					setCheckThanhToan(true);
+					JOptionPane.showMessageDialog(null, "Thanh toán thành công.");
+					dispose();
+				}
+
+			}
+		});
 		btnThanhToan.setBackground(new Color(30, 144, 255));
 		btnThanhToan.setForeground(new Color(0, 0, 0));
 		btnThanhToan.setFont(new Font("Tahoma", Font.PLAIN, 18));
@@ -155,6 +191,12 @@ public class DialogThanhToan extends JDialog {
 		contentPanel.add(btnThanhToan);
 
 		JButton btnHuy = new JButton("Hủy");
+		btnHuy.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dispose();
+			}
+		});
 		btnHuy.setBackground(new Color(255, 69, 0));
 		btnHuy.setFont(new Font("Tahoma", Font.PLAIN, 18));
 		btnHuy.setBounds(280, 472, 168, 68);
@@ -186,7 +228,21 @@ public class DialogThanhToan extends JDialog {
 				@Override
 				public void removeUpdate(DocumentEvent e) {
 					// TODO Auto-generated method stub
-
+					try {
+						double diemNhap = Double.parseDouble(txtSuDungDiem.getText());
+						if (diemNhap > hoaDon.getKhachHang().getDiemTichLuy()) {
+							JOptionPane.showMessageDialog(null,
+									"Số điểm trừ không được lớn hơn số điểm tích lũy của khách hàng!");
+						} else {
+							hoaDon.setDiemSuDung(diemNhap);
+							lblSoTienPhaiTra.setText(chuyenDoiDinhDangTienTe(hoaDon.tinhThanhTienHoaDon()));
+							soTienKhachDua = Double.parseDouble(txtSoTienKhachDua.getText());
+							lblTienThoi.setText(chuyenDoiDinhDangTienTe(soTienKhachDua - hoaDon.tinhThanhTienHoaDon()));
+						}
+					} catch (Exception e2) {
+						// TODO: handle exception
+						JOptionPane.showMessageDialog(null, "Phải nhập số!");
+					}
 				}
 
 				@Override
@@ -244,5 +300,13 @@ public class DialogThanhToan extends JDialog {
 		Locale localeVN = new Locale("vi", "VN");
 		NumberFormat currencyVN = NumberFormat.getCurrencyInstance(localeVN);
 		return currencyVN.format(soTien);
+	}
+
+	public boolean isCheckThanhToan() {
+		return checkThanhToan;
+	}
+
+	public void setCheckThanhToan(boolean checkThanhToan) {
+		this.checkThanhToan = checkThanhToan;
 	}
 }

@@ -5,7 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
+import connectDB.DAO;
 import entity.NhanVien;
+import entity.TaiKhoan;
 
 public class DAONhanVien extends DAO {
 	public boolean getNhanVien(String userName, String password) {
@@ -52,8 +54,43 @@ public class DAONhanVien extends DAO {
 		}
 	}
 
+	public boolean themNhanVien(NhanVien nhanVien) {
+		
+		String sql2 = "insert NhanVien (MaNV, HoTenDem, TenNV, GioiTinh, TenTaiKhoan, SoDienThoai) values (?, ?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement ps1 = conn.prepareStatement(sql2);
+			ps1.setString(1, nhanVien.getMaNhanVien());
+			ps1.setString(2, nhanVien.getHoTenDem());
+			ps1.setString(3, nhanVien.getTen());
+			ps1.setBoolean(4, nhanVien.isGioiTinh());
+			ps1.setString(5, nhanVien.getTaiKhoan().getUserName());
+			ps1.setString(6, nhanVien.getSoDienThoai());
+			
+			return ps1.executeUpdate() > 0;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			
+		}
+		return false;	
+	}
+	
+	public boolean themTaiKhoan(NhanVien nhanVien) {
+		String sql = "insert TaiKhoan values(?, ?)";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, nhanVien.getTaiKhoan().getUserName());
+			ps.setString(2, nhanVien.getTaiKhoan().getPassword());
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public static void main(String[] args) {
-		new DAONhanVien().getNhanVien("duchoan6814", "sapassword");
-		new DAONhanVien().getInforNhanVien("duchoan6814");
+		
 	}
 }
