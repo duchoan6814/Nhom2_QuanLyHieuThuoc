@@ -85,6 +85,10 @@ public class KhachHang {
 		this.gioiTinh = gioiTinh;
 	}
 
+	public KhachHang() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
 	public String toString() {
 		return "KhachHang [maKH=" + maKH + ", hoTenDem=" + hoTenDem + ", ten=" + ten + ", soDienThoai=" + soDienThoai

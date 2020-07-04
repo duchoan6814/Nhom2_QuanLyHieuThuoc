@@ -94,6 +94,17 @@ public class NhanVien {
 		this.gioiTinh = gioiTinh;
 	}
 
+	public NhanVien() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	public NhanVien(String maNhanVien) {
+		super();
+		this.maNhanVien = maNhanVien;
+	}
+
 	@Override
 	public String toString() {
 		return "NhanVien [maNhanVien=" + maNhanVien + ", hoTenDem=" + hoTenDem + ", ten=" + ten + ", soDienThoai="

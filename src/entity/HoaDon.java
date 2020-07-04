@@ -10,8 +10,17 @@ public class HoaDon {
 	private NhanVien nhanVien;
 	private KhachHang khachHang;
 	private ArrayList<ChiTietHoaDon> listChiTietHoaDon;
+	private Double diemSuDung = (double) 0;
 	
 	
+	
+	public Double getDiemSuDung() {
+		return diemSuDung;
+	}
+
+	public void setDiemSuDung(Double diemSuDung) {
+		this.diemSuDung = diemSuDung;
+	}
 
 	public NhanVien getNhanVien() {
 		return nhanVien;
@@ -69,6 +78,17 @@ public class HoaDon {
 		this.listChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
 	}
 
+	public HoaDon() {
+		// TODO Auto-generated constructor stub
+	}
+	
+	
+
+	public HoaDon(String maHD) {
+		super();
+		this.maHD = maHD;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -94,10 +114,12 @@ public class HoaDon {
 		return true;
 	}
 
+
+
 	@Override
 	public String toString() {
-		return "HoaDon [maHD=" + maHD + ", vAT=" + vAT + ", ngayLap=" + ngayLap + ", listChiTietHoaDon="
-				+ listChiTietHoaDon + "]";
+		return "HoaDon [maHD=" + maHD + ", vAT=" + vAT + ", ngayLap=" + ngayLap + ", nhanVien=" + nhanVien
+				+ ", khachHang=" + khachHang + ", listChiTietHoaDon=" + listChiTietHoaDon + "]";
 	}
 
 	public boolean themChiTietHoaDon(ChiTietHoaDon CTHD) {
@@ -141,6 +163,6 @@ public class HoaDon {
 		for (ChiTietHoaDon chiTietHoaDon : listChiTietHoaDon) {
 			tongTien += chiTietHoaDon.tinhTongTienChiTietHoaDon();
 		}
-		return tongTien + (tongTien * this.getvAT());
+		return tongTien + (tongTien * this.getvAT()) - diemSuDung;
 	}
 }
