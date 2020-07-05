@@ -3,6 +3,7 @@ package control;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import connectDB.DAO;
@@ -55,7 +56,7 @@ public class DAONhanVien extends DAO {
 	}
 
 	public boolean themNhanVien(NhanVien nhanVien) {
-		
+
 		String sql2 = "insert NhanVien (MaNV, HoTenDem, TenNV, GioiTinh, TenTaiKhoan, SoDienThoai) values (?, ?, ?, ?, ?, ?)";
 		try {
 			PreparedStatement ps1 = conn.prepareStatement(sql2);
@@ -65,17 +66,17 @@ public class DAONhanVien extends DAO {
 			ps1.setBoolean(4, nhanVien.isGioiTinh());
 			ps1.setString(5, nhanVien.getTaiKhoan().getUserName());
 			ps1.setString(6, nhanVien.getSoDienThoai());
-			
+
 			return ps1.executeUpdate() > 0;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			
+
 		}
-		return false;	
+		return false;
 	}
-	
+
 	public boolean themTaiKhoan(NhanVien nhanVien) {
 		String sql = "insert TaiKhoan values(?, ?)";
 		try {
@@ -89,8 +90,26 @@ public class DAONhanVien extends DAO {
 		}
 		return false;
 	}
-	
+
+	public ArrayList<String> getListTenNhanVien() {
+		String sql = "select HoTenDem, TenNV from nhanVien";
+		ArrayList<String> a = new ArrayList<String>();
+		PreparedStatement ps;
+		try {
+			ps = conn.prepareStatement(sql);
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				a.add(rs.getString("HoTenDem")+" "+rs.getString("TenNV"));
+			}
+			return a;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static void main(String[] args) {
-		
+
 	}
 }

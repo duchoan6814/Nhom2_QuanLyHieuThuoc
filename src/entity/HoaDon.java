@@ -5,7 +5,7 @@ import java.util.Date;
 import java.sql.*;
 public class HoaDon {
 	private String maHD;
-	private double vAT;
+	private double vAT, tongTien;
 	private Timestamp ngayLap;
 	private NhanVien nhanVien;
 	private KhachHang khachHang;
@@ -14,6 +14,14 @@ public class HoaDon {
 	
 	
 	
+	public double getTongTien() {
+		return tongTien;
+	}
+
+	public void setTongTien(double tongTien) {
+		this.tongTien = tongTien;
+	}
+
 	public Double getDiemSuDung() {
 		return diemSuDung;
 	}
