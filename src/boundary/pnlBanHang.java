@@ -412,12 +412,12 @@ public class pnlBanHang extends JPanel implements ActionListener {
 					if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()), maThuoc)) {
 						Thuoc thuocTemp = new Thuoc();
 						try {
-							thuocTemp.setMaThuoc(cbxMaSanPham.getSelectedItem().toString());
+							thuocTemp.setMaThuoc(maThuoc);
 						} catch (Exception e2) {
 							// TODO: handle exception
 							thuocTemp.setMaThuoc(tc.getText());
 						}
-						
+
 						thuocTemp.setTenThuoc(txtTenSanPham.getText());
 						thuocTemp.setDonViTinh(txtDonViTinh.getText());
 						thuocTemp.setGia(Double.parseDouble(txtDonGia.getText()));
@@ -440,21 +440,33 @@ public class pnlBanHang extends JPanel implements ActionListener {
 						txtDonViTinh.setText("");
 						cbxMaSanPham.getEditor().setItem("");
 					} else {
-
+						String maThuoc1;
+						try {
+							maThuoc1 = cbxMaSanPham.getSelectedItem().toString();
+						} catch (Exception e2) {
+							// TODO: handle exception
+							maThuoc1 = tc.getText();
+						}
 						JOptionPane.showMessageDialog(null,
 								"Số lượng trong kho không đủ chỉ còn "
-										+ ctrlThuoc.getSoLuongConLaiTrongKho(cbxMaSanPham.getSelectedItem().toString())
+										+ ctrlThuoc.getSoLuongConLaiTrongKho(maThuoc1)
 										+ " sản phẩm!");
 
 					}
 
 				} else {
-					if (kiemTraChiTietHoaDonTonTai(cbxMaSanPham.getSelectedItem().toString(),
-							hoaDon.getListChiTietHoaDon())) {
+					String maThuoc;
+					try {
+						maThuoc = cbxMaSanPham.getSelectedItem().toString();
+					} catch (Exception e2) {
+						// TODO: handle exception
+						maThuoc = tc.getText();
+					}
+					if (kiemTraChiTietHoaDonTonTai(maThuoc, hoaDon.getListChiTietHoaDon())) {
 						if (ctrlThuoc.kiemTraSoLuong(Integer.parseInt(txtSoLuong.getText()),
-								cbxMaSanPham.getSelectedItem().toString())) {
+								maThuoc)) {
 							Thuoc thuocTemp = new Thuoc();
-							thuocTemp.setMaThuoc(cbxMaSanPham.getSelectedItem().toString());
+							thuocTemp.setMaThuoc(maThuoc);
 							thuocTemp.setTenThuoc(txtTenSanPham.getText());
 							thuocTemp.setDonViTinh(txtDonViTinh.getText());
 							thuocTemp.setGia(Double.parseDouble(txtDonGia.getText()));
@@ -479,7 +491,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 						} else {
 
 							JOptionPane.showMessageDialog(null, "Số lượng trong kho không đủ chỉ còn "
-									+ ctrlThuoc.getSoLuongConLaiTrongKho(cbxMaSanPham.getSelectedItem().toString())
+									+ ctrlThuoc.getSoLuongConLaiTrongKho(maThuoc)
 									+ " sản phẩm!");
 
 						}
@@ -487,7 +499,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 						int count = 0;
 						for (ChiTietHoaDon chiTietHoaDon : hoaDon.getListChiTietHoaDon()) {
 							if (chiTietHoaDon.getThuoc().getMaThuoc()
-									.equals(cbxMaSanPham.getSelectedItem().toString())) {
+									.equals(maThuoc)) {
 								break;
 							}
 							count++;
@@ -495,7 +507,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 						int soLuongMoi = Integer.parseInt(modelSanPham.getValueAt(count, 4).toString())
 								+ Integer.parseInt(txtSoLuong.getText());
 						System.out.println(soLuongMoi);
-						if (ctrlThuoc.kiemTraSoLuong(soLuongMoi, cbxMaSanPham.getSelectedItem().toString())) {
+						if (ctrlThuoc.kiemTraSoLuong(soLuongMoi, maThuoc)) {
 							modelSanPham.setValueAt(soLuongMoi, count, 4);
 							hoaDon.getListChiTietHoaDon().get(count).setSoLuong(soLuongMoi);
 							modelSanPham.setValueAt(
@@ -509,7 +521,7 @@ public class pnlBanHang extends JPanel implements ActionListener {
 							cbxMaSanPham.getEditor().setItem("");
 						} else {
 							JOptionPane.showMessageDialog(null, "Số lượng trong kho không đủ chỉ còn "
-									+ ctrlThuoc.getSoLuongConLaiTrongKho(cbxMaSanPham.getSelectedItem().toString())
+									+ ctrlThuoc.getSoLuongConLaiTrongKho(maThuoc)
 									+ " sản phẩm!");
 						}
 
@@ -629,7 +641,15 @@ public class pnlBanHang extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 		Object obj = e.getSource();
 		if (obj.equals(cbxMaSanPham)) {
-			Thuoc a = ctrlThuoc.getThuocBan(cbxMaSanPham.getSelectedItem().toString());
+			String maThuoc;
+			try {
+				maThuoc = cbxMaSanPham.getSelectedItem().toString();
+			} catch (Exception e2) {
+				// TODO: handle exception
+				maThuoc = tc.getText();
+			}
+			
+			Thuoc a = ctrlThuoc.getThuocBan(maThuoc);
 			txtTenSanPham.setText(a.getTenThuoc());
 			txtDonViTinh.setText(a.getDonViTinh());
 			double donGiaBan = a.getGia() * 1.3;

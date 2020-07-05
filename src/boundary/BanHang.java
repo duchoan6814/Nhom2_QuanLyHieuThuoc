@@ -305,6 +305,8 @@ public class BanHang extends JFrame {
 				pnlChoose_1.setVisible(false);
 				CardLayout cardLayout = (CardLayout) pnlRightTop.getLayout();
 				cardLayout.show(pnlRightTop, "name_7662591450020");
+				CardLayout cardLayout1 = (CardLayout) pnlCenter.getLayout();
+				cardLayout1.show(pnlCenter, "pnlBanHang");
 			}
 		});
 		pnlBtnBanHang.setBackground(new Color(249,170,166));
