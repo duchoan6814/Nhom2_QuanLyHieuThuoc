@@ -17,8 +17,11 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Vector;
 import java.awt.event.ActionEvent;
+
 import com.toedter.calendar.JDateChooser;
 
 import control.DAOHoaDon;
@@ -64,22 +67,40 @@ public class pnlQuanLyHoaDon extends JPanel {
 
 		JLabel lblNewLabel_2 = new JLabel("Truy xu\u1EA5t H\u0110");
 		lblNewLabel_2.setFont(new Font("Tahoma", Font.BOLD, 14));
-		lblNewLabel_2.setBounds(24, 44, 116, 13);
+		lblNewLabel_2.setBounds(10, 44, 116, 13);
 		add(lblNewLabel_2);
 
 		JComboBox comboBox = new JComboBox(listNhanVienCBX);
+		comboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String tenNhanVien = comboBox.getSelectedItem().toString();
+				String[] temp = tenNhanVien.split(" ");
+				
+				String ten = temp[temp.length-1];
+				
+				List<String> list = new ArrayList<String>(Arrays.asList(temp));
+				list.remove(list.size() - 1);
+				temp = list.toArray(new String[0]);
+				
+				String ho = String.join(" ", temp);
+				System.out.println(ho);
+				System.out.println(ten);
+				
+				addHoaDonToTableTheoNhanVien(ho, ten);
+			}
+		});
 		comboBox.setFont(new Font("Tahoma", Font.BOLD, 12));
-		comboBox.setBounds(133, 41, 219, 21);
+		comboBox.setBounds(114, 41, 225, 21);
 		add(comboBox);
 
 		JLabel lblNewLabel_3 = new JLabel("T\u1EEB ng\u00E0y");
 		lblNewLabel_3.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_3.setBounds(374, 50, 66, 13);
+		lblNewLabel_3.setBounds(349, 45, 66, 13);
 		add(lblNewLabel_3);
 
 		JLabel lblNewLabel_4 = new JLabel("\u0110\u1EBFn ng\u00E0y");
 		lblNewLabel_4.setFont(new Font("Tahoma", Font.BOLD, 13));
-		lblNewLabel_4.setBounds(527, 50, 66, 13);
+		lblNewLabel_4.setBounds(569, 45, 66, 13);
 		add(lblNewLabel_4);
 
 		JButton btnNewButton = new JButton("\u0110i\u1EC1u ch\u1EC9nh");
@@ -89,13 +110,13 @@ public class pnlQuanLyHoaDon extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnNewButton.setBounds(524, 90, 95, 21);
+		btnNewButton.setBounds(606, 90, 95, 21);
 		add(btnNewButton);
 
 		JButton btnNewButton_1 = new JButton("H\u1EE7y H\u0110");
 		btnNewButton_1.setBackground(Color.ORANGE);
 		btnNewButton_1.setFont(new Font("Tahoma", Font.BOLD, 12));
-		btnNewButton_1.setBounds(654, 90, 95, 21);
+		btnNewButton_1.setBounds(714, 90, 95, 21);
 		add(btnNewButton_1);
 
 		JLabel lblNewLabel_5 = new JLabel("TTH\u0110 b\u00E1n ra:");
@@ -124,48 +145,67 @@ public class pnlQuanLyHoaDon extends JPanel {
 		add(lblNewLabel_8);
 
 		JDateChooser dateChooser = new JDateChooser();
-		dateChooser.setBounds(436, 44, 81, 20);
+		dateChooser.setBounds(413, 42, 111, 20);
 		add(dateChooser);
-		
-		
 
 		JDateChooser dateChooser_1 = new JDateChooser();
-		dateChooser_1.setBounds(603, 44, 90, 20);
+		dateChooser_1.setBounds(647, 42, 90, 20);
 		add(dateChooser_1);
 
 		String[] colHeader = { "STT", "Mã HD", "Ngày lập", "Nhân Viên", "Khách hàng", "Tổng tiền" };
 		hoaDonModel = new DefaultTableModel(colHeader, 0);
 		tblHoaDon = new JTable(hoaDonModel);
+		tblHoaDon.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String maHoadDonCHon;
+				maHoadDonCHon = (String) tblHoaDon.getValueAt(tblHoaDon.getSelectedRow(), 1);
+				System.out.println(maHoadDonCHon);
+				ChiTietHoaDon chiTietHoaDon = new ChiTietHoaDon(maHoadDonCHon);
+				chiTietHoaDon.setVisible(true);
+			}
+		});
 		JScrollPane scrollPane = new JScrollPane(tblHoaDon);
 		scrollPane.setBounds(10, 121, 840, 440);
 		add(scrollPane);
-		
+
 		JButton btnLoc = new JButton("Lọc");
 		btnLoc.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				
+
 				String startDate = sdf.format(dateChooser.getDate().getTime());
 				String endDate = sdf.format(dateChooser_1.getDate().getTime());
-				
+
 				String[] temp = endDate.split("-");
 				temp[2] = Integer.toString((Integer.parseInt(temp[2]) + 1));
-				
+
 				endDate = String.join("-", temp);
 				if (dateChooser.getDate().getTime() > dateChooser_1.getDate().getTime()) {
 					JOptionPane.showMessageDialog(null, "Ngày bắt đầu không được lớn hơn ngày kết thúc");
-				}else {
+				} else {
 					addHoaDonToTableTuNgayToiNgay(startDate, endDate);
 				}
-				
-				
+
 				System.out.println(endDate);
 				System.out.println(dateChooser.getDate().getTime() < dateChooser_1.getDate().getTime());
 			}
 		});
-		btnLoc.setBounds(714, 41, 89, 23);
+		btnLoc.setBounds(761, 41, 89, 23);
 		add(btnLoc);
+		
+		JButton btnTtCHa = new JButton("Tất cả hóa đơn");
+		btnTtCHa.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				addAllHoaDonToTable();
+			}
+		});
+		btnTtCHa.setFont(new Font("Tahoma", Font.BOLD, 12));
+		btnTtCHa.setBackground(Color.ORANGE);
+		btnTtCHa.setBounds(430, 90, 166, 21);
+		add(btnTtCHa);
 
 		addAllHoaDonToTable();
 		setNhanVienCBX();
@@ -173,49 +213,58 @@ public class pnlQuanLyHoaDon extends JPanel {
 
 	public void addAllHoaDonToTable() {
 		hoaDonHienThi = new DAOHoaDon().getAllHoaDon();
-		if(hoaDonHienThi == null) {
+		if (hoaDonHienThi == null) {
 			JOptionPane.showMessageDialog(null, "Có lỗi sảy ra trong quá trình lấy hóa đơn!");
-		}else {
-			lblSoDong.setText("Số dòng: "+ Integer.toString(hoaDonHienThi.size()));
+		} else {
+			((DefaultTableModel) hoaDonModel).setRowCount(0);
+			lblSoDong.setText("Số dòng: " + Integer.toString(hoaDonHienThi.size()));
 			for (HoaDon hoaDon : hoaDonHienThi) {
-				((DefaultTableModel) hoaDonModel).addRow(new Object[] {
-						hoaDonModel.getRowCount(),
-						hoaDon.getMaHD(),
-						hoaDon.getNgayLap(),
-						hoaDon.getNhanVien().getHoTenDem()+ " "+hoaDon.getNhanVien().getTen(),
-						hoaDon.getKhachHang().getHoTenDem()+ " "+ hoaDon.getKhachHang().getTen(),
-						hoaDon.getTongTien()
-				});
+				((DefaultTableModel) hoaDonModel).addRow(new Object[] { hoaDonModel.getRowCount(), hoaDon.getMaHD(),
+						hoaDon.getNgayLap(), hoaDon.getNhanVien().getHoTenDem() + " " + hoaDon.getNhanVien().getTen(),
+						hoaDon.getKhachHang().getHoTenDem() + " " + hoaDon.getKhachHang().getTen(),
+						hoaDon.getTongTien() });
 			}
-			
+
 		}
 	}
-	
+
 	public void addHoaDonToTableTuNgayToiNgay(String startDate, String endDate) {
 		((DefaultTableModel) hoaDonModel).setRowCount(0);
 		hoaDonHienThi = new DAOHoaDon().getHoaDonTuNgayDenNgay(startDate, endDate);
-		if(hoaDonHienThi == null) {
+		if (hoaDonHienThi == null) {
 			JOptionPane.showMessageDialog(null, "Có lỗi sảy ra trong quá trình lấy hóa đơn!");
-		}else {
-			lblSoDong.setText("Số dòng: "+ Integer.toString(hoaDonHienThi.size()));
+		} else {
+			lblSoDong.setText("Số dòng: " + Integer.toString(hoaDonHienThi.size()));
 			for (HoaDon hoaDon : hoaDonHienThi) {
-				((DefaultTableModel) hoaDonModel).addRow(new Object[] {
-						hoaDonModel.getRowCount(),
-						hoaDon.getMaHD(),
-						hoaDon.getNgayLap(),
-						hoaDon.getNhanVien().getHoTenDem()+ " "+hoaDon.getNhanVien().getTen(),
-						hoaDon.getKhachHang().getHoTenDem()+ " "+ hoaDon.getKhachHang().getTen(),
-						hoaDon.getTongTien()
-				});
+				((DefaultTableModel) hoaDonModel).addRow(new Object[] { hoaDonModel.getRowCount(), hoaDon.getMaHD(),
+						hoaDon.getNgayLap(), hoaDon.getNhanVien().getHoTenDem() + " " + hoaDon.getNhanVien().getTen(),
+						hoaDon.getKhachHang().getHoTenDem() + " " + hoaDon.getKhachHang().getTen(),
+						hoaDon.getTongTien() });
 			}
-			
+
 		}
 	}
-	
+
 	public void setNhanVienCBX() {
 		ArrayList<String> a = new DAONhanVien().getListTenNhanVien();
 		for (String string : a) {
 			listNhanVienCBX.addElement(string);
+		}
+	}
+
+	public void addHoaDonToTableTheoNhanVien(String ho, String ten) {
+		((DefaultTableModel) hoaDonModel).setRowCount(0);
+		hoaDonHienThi = new DAOHoaDon().getDanhSachHoaDonTheoNhanVien(ho, ten);
+		if (hoaDonHienThi == null) {
+			JOptionPane.showMessageDialog(null, "Có lỗi sảy ra trong quá trình lấy hóa đơn!");
+		} else {
+			lblSoDong.setText("Số dòng: " + Integer.toString(hoaDonHienThi.size()));
+			for (HoaDon hoaDon : hoaDonHienThi) {
+				((DefaultTableModel) hoaDonModel).addRow(new Object[] { hoaDonModel.getRowCount(), hoaDon.getMaHD(),
+						hoaDon.getNgayLap(), hoaDon.getNhanVien().getHoTenDem() + " " + hoaDon.getNhanVien().getTen(),
+						hoaDon.getKhachHang().getHoTenDem() + " " + hoaDon.getKhachHang().getTen(),
+						hoaDon.getTongTien() });
+			}
 		}
 	}
 }

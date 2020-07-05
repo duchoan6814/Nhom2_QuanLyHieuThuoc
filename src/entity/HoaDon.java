@@ -88,6 +88,7 @@ public class HoaDon {
 
 	public HoaDon() {
 		// TODO Auto-generated constructor stub
+		this.listChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
 	}
 	
 	
@@ -95,6 +96,7 @@ public class HoaDon {
 	public HoaDon(String maHD) {
 		super();
 		this.maHD = maHD;
+		this.listChiTietHoaDon = new ArrayList<ChiTietHoaDon>();
 	}
 
 	@Override
