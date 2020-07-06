@@ -57,6 +57,7 @@ public class BanHang extends JFrame {
 	private String maThuocTimKiemChon;
 	private pnlQuanLyHoaDon pnlQuanLyHoaDon;
 	private JPanel pnlCenter;
+	private pnlQuanLyKhachHang pnlQuanLyKhachHang;
 	
 	
 	
@@ -393,5 +394,9 @@ public class BanHang extends JFrame {
 		pnlQuanLyHoaDon = new pnlQuanLyHoaDon();
 		pnlCenter.add(pnlQuanLyHoaDon, "pnlQuanLyHoaDon");
 		pnlQuanLyHoaDon.setLayout(null);
+		
+		pnlQuanLyKhachHang = new pnlQuanLyKhachHang();
+		pnlCenter.add(pnlQuanLyKhachHang, "pnlQuanLyKhachHang");
+		pnlQuanLyKhachHang.setLayout(null);
 	}
 }

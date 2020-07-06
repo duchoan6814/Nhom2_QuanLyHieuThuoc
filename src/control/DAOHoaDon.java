@@ -139,7 +139,7 @@ public class DAOHoaDon extends DAO {
 				" from HoaDon hd left join KhachHang kh on hd.MaKH = kh.MaKH inner join NhanVien nv on nv.MaNV = hd.MaNV" + 
 				" where MaHD = ?";
 		
-		String sql1 = "select TenThuoc, cthd.SoLuong, TongTien" + 
+		String sql1 = "select TenThuoc, cthd.SoLuong, DonGia" + 
 				" from ChiTietHoaDon cthd inner join Thuoc t on cthd.MaThuoc = t.MaThuoc" + 
 				" where MaHD = ?";
 		
@@ -160,6 +160,7 @@ public class DAOHoaDon extends DAO {
 				hoaDon.setKhachHang(hang);
 				hoaDon.setTongTien(rs.getDouble("TongTienPhaiTra"));
 				hoaDon.setDiemSuDung(rs.getDouble("SoDiemTru"));
+				
 				PreparedStatement ps1 = conn.prepareStatement(sql1);
 				ps1.setString(1, hoaDon.getMaHD());
 				ResultSet rs1 = ps1.executeQuery();
@@ -169,7 +170,7 @@ public class DAOHoaDon extends DAO {
 					thuoc.setTenThuoc(rs1.getString("TenThuoc"));
 					chiTietHoaDon.setThuoc(thuoc);
 					chiTietHoaDon.setSoLuong(rs1.getInt("SoLuong"));
-					chiTietHoaDon.setGiaBan(rs1.getDouble("TongTien"));
+					chiTietHoaDon.setGiaBan(rs1.getDouble("DonGia"));
 					hoaDon.getListChiTietHoaDon().add(chiTietHoaDon);
 				}
 				return hoaDon;
