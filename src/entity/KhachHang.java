@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class KhachHang {
 	private String maKH, hoTenDem, ten, soDienThoai, diaChi;
-	private Date ngaySinh;
+	private java.sql.Date ngaySinh;
 	private double diemTichLuy;
 	private boolean gioiTinh;
 
@@ -52,7 +52,7 @@ public class KhachHang {
 		return ngaySinh;
 	}
 
-	public void setNgaySinh(Date ngaySinh) {
+	public void setNgaySinh(java.sql.Date ngaySinh) {
 		this.ngaySinh = ngaySinh;
 	}
 
@@ -72,7 +72,7 @@ public class KhachHang {
 		this.gioiTinh = gioiTinh;
 	}
 
-	public KhachHang(String maKH, String hoTenDem, String ten, String soDienThoai, String diaChi, Date ngaySinh,
+	public KhachHang(String maKH, String hoTenDem, String ten, String soDienThoai, String diaChi, java.sql.Date ngaySinh,
 			double diemTichLuy, boolean gioiTinh) {
 		super();
 		this.maKH = maKH;

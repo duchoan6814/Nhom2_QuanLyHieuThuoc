@@ -58,6 +58,7 @@ public class BanHang extends JFrame {
 	private pnlQuanLyHoaDon pnlQuanLyHoaDon;
 	private JPanel pnlCenter;
 	private pnlQuanLyKhachHang pnlQuanLyKhachHang;
+	private JButton btnChucNangKhachHang;
 	
 	
 	
@@ -251,6 +252,7 @@ public class BanHang extends JFrame {
 		btnChucNangHoaDon.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				System.out.println("hello");
 				CardLayout cardLayout = (CardLayout) pnlCenter.getLayout();
 				cardLayout.show(pnlCenter, "pnlQuanLyHoaDon");
 			}
@@ -261,14 +263,22 @@ public class BanHang extends JFrame {
 		pnlChucNangBanHang.add(btnChucNangHoaDon);
 		
 		JButton btnChucNangThongKe = new JButton("Thống kê");
+		btnChucNangThongKe.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("hello");
+			}
+		});
 		btnChucNangThongKe.setBackground(new Color(255, 153, 102));
 		btnChucNangThongKe.setBounds(12, 224, 236, 41);
 		pnlChucNangBanHang.add(btnChucNangThongKe);
 		
-		JButton btnChucNangKhachHang = new JButton("Khách hàng");
-		btnChucNangKhachHang.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		btnChucNangKhachHang = new JButton("Khách hàng");
+		btnChucNangKhachHang.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cardLayout = (CardLayout) pnlCenter.getLayout();
+				cardLayout.show(pnlCenter, "pnlQuanLyKhachHang");
 			}
 		});
 		btnChucNangKhachHang.setBackground(new Color(255, 153, 102));
@@ -399,4 +409,5 @@ public class BanHang extends JFrame {
 		pnlCenter.add(pnlQuanLyKhachHang, "pnlQuanLyKhachHang");
 		pnlQuanLyKhachHang.setLayout(null);
 	}
+
 }
