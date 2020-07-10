@@ -58,6 +58,8 @@ public class LoThuoc {
 	}
 	
 	
-	
+	public double tinhTongTienLoThuoc() {
+		return this.thuoc.getGia() * this.soLuong;
+	}
 	
 }

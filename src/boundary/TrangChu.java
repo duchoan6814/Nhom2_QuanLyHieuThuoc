@@ -19,12 +19,15 @@ import java.awt.SystemColor;
 import javax.swing.border.LineBorder;
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
 
 public class TrangChu extends JFrame {
 
@@ -33,22 +36,24 @@ public class TrangChu extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					TrangChu frame = new TrangChu();
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					TrangChu frame = new TrangChu();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
+	 * 
+	 * @throws IOException
 	 */
-	public TrangChu() {
+	public TrangChu() throws IOException {
 		this.setVisible(true);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);
@@ -66,7 +71,8 @@ public class TrangChu extends JFrame {
 		pnlContent.add(pnlTop, BorderLayout.NORTH);
 		pnlTop.setLayout(null);
 
-		JLabel lblLogo = new JLabel("Logo");
+		JLabel lblLogo = new JLabel();
+		lblLogo.setIcon(scaleImage(new ImageIcon(ImageIO.read(new File("image\\\\logoHead.png"))), 100, 100));
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogo.setFont(new Font("Dialog", Font.BOLD, 30));
 		lblLogo.setBounds(0, 0, 208, 50);
@@ -102,34 +108,36 @@ public class TrangChu extends JFrame {
 
 		JPanel pnlCenter = new JPanel();
 		pnlCenter.setBorder(new EmptyBorder(0, 0, 0, 0));
-		pnlCenter.setBackground(new Color(248,243,236));
+		pnlCenter.setBackground(new Color(248, 243, 236));
 		pnlContent.add(pnlCenter, BorderLayout.CENTER);
 		pnlCenter.setLayout(null);
-		
+
 		JLabel lblGioiThieu_1 = new JLabel("Chào mừng các bạn đến với chương trình quản lý hiệu thuốc của chúng tôi.");
 		lblGioiThieu_1.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblGioiThieu_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGioiThieu_1.setBounds(243, 180, 554, 30);
 		pnlCenter.add(lblGioiThieu_1);
-		
-		JLabel lblLogo_1 = new JLabel("Logo");
+
+		JLabel lblLogo_1 = new JLabel();
+		lblLogo_1.setIcon(scaleImage(new ImageIcon(ImageIO.read(new File("image\\\\logo.png"))), 300, 300));
 		lblLogo_1.setFont(new Font("Dialog", Font.BOLD, 99));
 		lblLogo_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogo_1.setBounds(301, -5, 438, 215);
 		pnlCenter.add(lblLogo_1);
-		
-		JLabel lblGioiThieu_2 = new JLabel("Đây là một sản phẩm bài tập lớn cuối kỳ môn lập trình hướng sự kiện với công nghệ Java do cô Trần Thị Anh Thi giảng dạy.");
+
+		JLabel lblGioiThieu_2 = new JLabel(
+				"Đây là một sản phẩm bài tập lớn cuối kỳ môn lập trình hướng sự kiện với công nghệ Java do cô Trần Thị Anh Thi giảng dạy.");
 		lblGioiThieu_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblGioiThieu_2.setHorizontalAlignment(SwingConstants.CENTER);
 		lblGioiThieu_2.setBounds(65, 221, 913, 30);
 		pnlCenter.add(lblGioiThieu_2);
-		
-		JLabel lblChcCcBn = new JLabel("Chúc các bạn trảinghiệm vui vẻ.");
+
+		JLabel lblChcCcBn = new JLabel("Chúc các bạn trải nghiệm vui vẻ.");
 		lblChcCcBn.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblChcCcBn.setHorizontalAlignment(SwingConstants.CENTER);
 		lblChcCcBn.setBounds(226, 262, 582, 30);
 		pnlCenter.add(lblChcCcBn);
-		
+
 		JButton btnDangNhap = new JButton("Đăng nhập");
 		btnDangNhap.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -147,9 +155,9 @@ public class TrangChu extends JFrame {
 		btnDangNhap.setBorder(new EmptyBorder(0, 0, 0, 0));
 		btnDangNhap.setFont(new Font("Dialog", Font.BOLD, 15));
 		btnDangNhap.setBounds(314, 314, 175, 132);
-		btnDangNhap.setBackground(new Color(234,172,157));
+		btnDangNhap.setBackground(new Color(234, 172, 157));
 		pnlCenter.add(btnDangNhap);
-		
+
 		JButton btnDangKy = new JButton("Đăng ký");
 		btnDangKy.addMouseListener(new MouseAdapter() {
 			@Override
@@ -162,5 +170,22 @@ public class TrangChu extends JFrame {
 		btnDangKy.setBackground(new Color(128, 189, 171));
 		btnDangKy.setBounds(539, 314, 175, 132);
 		pnlCenter.add(btnDangKy);
+	}
+
+	public ImageIcon scaleImage(ImageIcon icon, int w, int h) {
+		int nw = icon.getIconWidth();
+		int nh = icon.getIconHeight();
+
+		if (icon.getIconWidth() > w) {
+			nw = w;
+			nh = (nw * icon.getIconHeight()) / icon.getIconWidth();
+		}
+
+		if (nh > h) {
+			nh = h;
+			nw = (icon.getIconWidth() * nh) / icon.getIconHeight();
+		}
+
+		return new ImageIcon(icon.getImage().getScaledInstance(nw, nh, Image.SCALE_DEFAULT));
 	}
 }
