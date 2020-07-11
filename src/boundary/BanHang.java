@@ -61,6 +61,7 @@ public class BanHang extends JFrame {
 	private JButton btnChucNangKhachHang;
 	private pnlNhapKho pnlNhapKho;
 	private pnlXuatKho pnlXuatKho;
+	private pnlQuanLiKho pnlQuanLyKho;
 
 	public String getMaThuocTimKiemChon() {
 		return maThuocTimKiemChon;
@@ -355,7 +356,7 @@ public class BanHang extends JFrame {
 				CardLayout cardLayout = (CardLayout) pnlRightTop.getLayout();
 				cardLayout.show(pnlRightTop, "name_7698100502550");
 				cardLayout = (CardLayout) pnlCenter.getLayout();
-				cardLayout.show(pnlCenter, "pnlNhapKho");
+				cardLayout.show(pnlCenter, "pnlQuanLyKho");
 			}
 		});
 		pnlBtnBanHang_1.setLayout(null);
@@ -432,6 +433,10 @@ public class BanHang extends JFrame {
 		pnlXuatKho = new pnlXuatKho();
 		pnlCenter.add(pnlXuatKho, "pnlXuatKho");
 		pnlXuatKho.setLayout(null);
+		
+		pnlQuanLyKho = new pnlQuanLiKho();
+		pnlCenter.add(pnlQuanLyKho, "pnlQuanLyKho");
+		pnlQuanLyKho.setLayout(null);
 	}
 
 	public ImageIcon scaleImage(ImageIcon icon, int w, int h) {

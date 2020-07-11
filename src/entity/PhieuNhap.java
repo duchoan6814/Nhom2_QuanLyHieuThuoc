@@ -38,14 +38,16 @@ public class PhieuNhap {
 		this.maPhieuNhap = maPhieuNhap;
 		this.ngayNhap = ngayNhap;
 		this.nhanVien = nhanVien;
-		this.loThuocs = loThuocs;
+		this.loThuocs = new ArrayList<LoThuoc>();
 	}
 	public PhieuNhap(String maPhieuNhap) {
 		super();
 		this.maPhieuNhap = maPhieuNhap;
+		this.loThuocs = new ArrayList<LoThuoc>();
 	}
 	public PhieuNhap() {
 		super();
+		this.loThuocs = new ArrayList<LoThuoc>();
 	}
 	@Override
 	public String toString() {
@@ -76,6 +78,12 @@ public class PhieuNhap {
 		return true;
 	}
 	
-	
+	public double tinhTongGiaNhap() {
+		double sum = 0;
+		for (LoThuoc loThuoc : loThuocs) {
+			sum += loThuoc.tinhTongTienLoThuoc();
+		}
+		return sum;
+	}
 
 }
