@@ -1,11 +1,12 @@
 package entity;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class PhieuNhap {
 	private String maPhieuNhap;
-	private java.sql.Date ngayNhap;
+	private Timestamp ngayNhap;
 	private NhanVien nhanVien;
 	private ArrayList<LoThuoc> loThuocs;
 	
@@ -15,10 +16,10 @@ public class PhieuNhap {
 	public void setMaPhieuNhap(String maPhieuNhap) {
 		this.maPhieuNhap = maPhieuNhap;
 	}
-	public java.sql.Date getNgayNhap() {
+	public Timestamp getNgayNhap() {
 		return ngayNhap;
 	}
-	public void setNgayNhap(java.sql.Date ngayNhap) {
+	public void setNgayNhap(Timestamp ngayNhap) {
 		this.ngayNhap = ngayNhap;
 	}
 	public NhanVien getNhanVien() {
@@ -33,19 +34,21 @@ public class PhieuNhap {
 	public void setLoThuocs(ArrayList<LoThuoc> loThuocs) {
 		this.loThuocs = loThuocs;
 	}
-	public PhieuNhap(String maPhieuNhap, java.sql.Date ngayNhap, NhanVien nhanVien, ArrayList<LoThuoc> loThuocs) {
+	public PhieuNhap(String maPhieuNhap, Timestamp ngayNhap, NhanVien nhanVien, ArrayList<LoThuoc> loThuocs) {
 		super();
 		this.maPhieuNhap = maPhieuNhap;
 		this.ngayNhap = ngayNhap;
 		this.nhanVien = nhanVien;
-		this.loThuocs = loThuocs;
+		this.loThuocs = new ArrayList<LoThuoc>();
 	}
 	public PhieuNhap(String maPhieuNhap) {
 		super();
 		this.maPhieuNhap = maPhieuNhap;
+		this.loThuocs = new ArrayList<LoThuoc>();
 	}
 	public PhieuNhap() {
 		super();
+		this.loThuocs = new ArrayList<LoThuoc>();
 	}
 	@Override
 	public String toString() {
@@ -76,6 +79,12 @@ public class PhieuNhap {
 		return true;
 	}
 	
-	
+	public double tinhTongGiaNhap() {
+		double sum = 0;
+		for (LoThuoc loThuoc : loThuocs) {
+			sum += loThuoc.tinhTongTienLoThuoc();
+		}
+		return sum;
+	}
 
 }

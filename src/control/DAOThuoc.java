@@ -111,9 +111,9 @@ public class DAOThuoc extends DAO {
 
 	public ArrayList<Thuoc> timKiemThuoc(String str) {
 		ArrayList<Thuoc> a = new ArrayList<Thuoc>();
-		String sql = "select MaThuoc, TenThuoc, GiaThuoc, tl.MaLoai,TenLoai, DonViTinh from Thuoc t inner join [dbo].[TheLoai] tl on t.MaLoai = tl.MaLoai where MaThuoc like '%"
+		String sql = "select MaThuoc, TenThuoc, GiaThuoc, tl.MaLoai,TenLoai, DonViTinh, SoLuong from Thuoc t left join [dbo].[TheLoai] tl on t.MaLoai = tl.MaLoai where MaThuoc like '%"
 				+ str + "%'";
-		String sql1 = "select MaThuoc, TenThuoc, GiaThuoc, tl.MaLoai,TenLoai, DonViTinh from Thuoc t inner join [dbo].[TheLoai] tl on t.MaLoai = tl.MaLoai where TenThuoc like '%"
+		String sql1 = "select MaThuoc, TenThuoc, GiaThuoc, tl.MaLoai,TenLoai, DonViTinh, SoLuong from Thuoc t left join [dbo].[TheLoai] tl on t.MaLoai = tl.MaLoai where TenThuoc like '%"
 				+ str + "%'";
 
 		try {
@@ -131,6 +131,7 @@ public class DAOThuoc extends DAO {
 				theLoai.setTenTheLoai(rs.getString("TenLoai"));
 				temp.setLoai(theLoai);
 				temp.setDonViTinh(rs.getString("DonViTinh"));
+				temp.setSoLuong(rs.getInt("SoLuong"));
 
 				if (!a.contains(temp)) {
 					a.add(temp);
@@ -148,6 +149,7 @@ public class DAOThuoc extends DAO {
 				theLoai.setTenTheLoai(rs1.getString("TenLoai"));
 				temp.setLoai(theLoai);
 				temp.setDonViTinh(rs1.getString("DonViTinh"));
+				temp.setSoLuong(rs1.getInt("SoLuong"));
 
 				if (!a.contains(temp)) {
 					a.add(temp);
@@ -191,6 +193,27 @@ public class DAOThuoc extends DAO {
 		}
 		return null;
 		
+	}
+	
+	public boolean themThuocMoi(Thuoc thuoc) {
+		String sql = "insert Thuoc values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, thuoc.getMaThuoc());
+			ps.setString(2, thuoc.getMoTa());
+			ps.setDouble(3, thuoc.getGia());
+			ps.setString(4, thuoc.getTenThuoc());
+			ps.setString(5, thuoc.getHanSuDung());
+			ps.setString(6, thuoc.getDonViTinh());
+			ps.setString(7, thuoc.getNhaCungCap().getMaNhaCungCap());
+			ps.setString(8, thuoc.getLoai().getMaTheLoai());
+			ps.setInt(9, 0);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 
 	public static void main(String[] args) {
