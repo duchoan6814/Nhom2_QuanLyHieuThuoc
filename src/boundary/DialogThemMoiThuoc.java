@@ -243,7 +243,7 @@ public class DialogThemMoiThuoc extends JDialog {
 				Thuoc thuoc = new Thuoc(txtMaThuoc.getText(), txtTenThuoc.getText(), txtMoTa.getText(),
 						txtDonViTinh.getText(),Double.parseDouble(txtGiaThuoc.getText()), nhaCungCap, theLoai, 0, txtHanSuDung.getText() + " tháng");
 				if(!new DAOThuoc().themThuocMoi(thuoc)) {
-					JOptionPane.showMessageDialog(null, "Thêm thuốc không thành công");
+					JOptionPane.showMessageDialog(null, "Thêm thuốc không thành công, do mã thuốc bị trùng hay một lý do nào đó!");
 				}else {
 					JOptionPane.showMessageDialog(null, "Thêm thuốc thành công.");
 					dispose();

@@ -62,6 +62,7 @@ public class BanHang extends JFrame {
 	private pnlNhapKho pnlNhapKho;
 	private pnlXuatKho pnlXuatKho;
 	private pnlQuanLiKho pnlQuanLyKho;
+	private pnlQuanLyPhieuNhap pnlQuanLyPhieuNhap;
 
 	public String getMaThuocTimKiemChon() {
 		return maThuocTimKiemChon;
@@ -294,6 +295,13 @@ public class BanHang extends JFrame {
 		pnlChucNangKho.setLayout(null);
 
 		JButton btnNewButton = new JButton("Nhập hàng");
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cardLayout = (CardLayout) pnlCenter.getLayout();
+				cardLayout.show(pnlCenter, "pnlNhapKho");
+			}
+		});
 		btnNewButton.setBackground(new Color(255, 153, 102));
 		btnNewButton.setBounds(10, 11, 240, 40);
 		pnlChucNangKho.add(btnNewButton);
@@ -309,6 +317,19 @@ public class BanHang extends JFrame {
 		btnNewButton_1.setBackground(new Color(255, 153, 102));
 		btnNewButton_1.setBounds(10, 62, 240, 40);
 		pnlChucNangKho.add(btnNewButton_1);
+		
+		JButton btnNewButton_1_1 = new JButton("Quản lý phiếu nhập");
+		btnNewButton_1_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CardLayout cardLayout = (CardLayout) pnlCenter.getLayout();
+				cardLayout.show(pnlCenter, "pnlQuanLyPhieuNhap");
+				
+			}
+		});
+		btnNewButton_1_1.setBackground(new Color(255, 153, 102));
+		btnNewButton_1_1.setBounds(10, 113, 240, 40);
+		pnlChucNangKho.add(btnNewButton_1_1);
 
 		JPanel pnlRightBottom = new JPanel();
 		pnlRightBottom.setBackground(new Color(251, 211, 182));
@@ -426,7 +447,7 @@ public class BanHang extends JFrame {
 		pnlCenter.add(pnlQuanLyKhachHang, "pnlQuanLyKhachHang");
 		pnlQuanLyKhachHang.setLayout(null);
 
-		pnlNhapKho = new pnlNhapKho();
+		pnlNhapKho = new pnlNhapKho(userName);
 		pnlCenter.add(pnlNhapKho, "pnlNhapKho");
 		pnlNhapKho.setLayout(null);
 
@@ -437,6 +458,10 @@ public class BanHang extends JFrame {
 		pnlQuanLyKho = new pnlQuanLiKho();
 		pnlCenter.add(pnlQuanLyKho, "pnlQuanLyKho");
 		pnlQuanLyKho.setLayout(null);
+		
+		pnlQuanLyPhieuNhap = new pnlQuanLyPhieuNhap();
+		pnlCenter.add(pnlQuanLyPhieuNhap, "pnlQuanLyPhieuNhap");
+		pnlQuanLyPhieuNhap.setLayout(null);
 	}
 
 	public ImageIcon scaleImage(ImageIcon icon, int w, int h) {
@@ -455,5 +480,4 @@ public class BanHang extends JFrame {
 
 		return new ImageIcon(icon.getImage().getScaledInstance(nw, nh, Image.SCALE_DEFAULT));
 	}
-
 }

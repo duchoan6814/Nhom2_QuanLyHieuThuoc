@@ -1,5 +1,6 @@
 package control;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,7 +22,7 @@ public class DAOLoThuoc extends DAO {
 			while(rs.next()) {
 				PhieuNhap phieuNhap = new PhieuNhap();
 				phieuNhap.setMaPhieuNhap(rs.getString("MaPhieuNhap"));
-				phieuNhap.setNgayNhap(rs.getDate("NgayNhap"));
+				phieuNhap.setNgayNhap(rs.getTimestamp("NgayNhap"));
 				LoThuoc loThuoc = new LoThuoc();
 				loThuoc.setNgaySanXuat(rs.getDate("NgaySanXuat"));
 				loThuoc.setNgayHetHan(rs.getDate("NgayHetHan"));
@@ -35,5 +36,24 @@ public class DAOLoThuoc extends DAO {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public boolean themLoThuocMoi(String maPhieuNhap ,LoThuoc loThuoc) {
+		String sql = "insert into LoThuoc (MaPhieuNhap, NgaySanXuat, NgayHetHan, MaThuoc, SoLuong, DonGiaNhap, TongTien) values (?, ?, ?, ?, ?, ?, ?)";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, maPhieuNhap);
+			ps.setDate(2, (Date) loThuoc.getNgaySanXuat());
+			ps.setDate(3, (Date) loThuoc.getNgayHetHan());
+			ps.setString(4, loThuoc.getThuoc().getMaThuoc());
+			ps.setInt(5, loThuoc.getSoLuong());
+			ps.setDouble(6, loThuoc.getDonGia());
+			ps.setDouble(7, loThuoc.tinhTongTienLoThuoc());
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
 	}
 }
