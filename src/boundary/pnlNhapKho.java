@@ -278,6 +278,7 @@ public class pnlNhapKho extends JPanel {
 				new DAOPhieuNhap().themMoiPhieuNhap(phieuNhap);
 				for (LoThuoc lt : phieuNhap.getLoThuocs()) {
 					new DAOLoThuoc().themLoThuocMoi(phieuNhap.getMaPhieuNhap(), lt);
+					new DAOThuoc().updateSoLuongThuoc(lt.getSoLuong(), lt.getThuoc().getMaThuoc());
 				}
 				JOptionPane.showMessageDialog(null, "Nhập hàng thành công!");
 				loThuocModel.setRowCount(0);

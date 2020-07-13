@@ -222,4 +222,18 @@ public class DAOThuoc extends DAO {
 		System.out.println(new DAOThuoc().kiemTraMaThuoc("NC46-H06-15"));
 		System.out.println(new DAOThuoc().timKiemThuoc("vn"));
 	}
+	
+	public boolean updateSoLuongThuoc(int soLuong, String maThuoc) {
+		String sql = "update Thuoc set SoLuong = SoLuong + ? where MaThuoc = ?";
+		try {
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, soLuong);
+			ps.setString(2, maThuoc);
+			return ps.executeUpdate() > 0;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return false;
+	}
 }
